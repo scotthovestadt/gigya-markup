@@ -41,6 +41,12 @@ Documentation: http://developers.gigya.com/display/GD/accounts.showScreenSet+JS
 <div class="gy-ui-screen-set" data-screen-set="Default-RegistrationLogin"></div>
 ````
 
+#### Account Info UI
+Binds to [Profile](http://developers.gigya.com/display/GD/Profile+JS) field for logged-in user. Blank when user is not logged in.
+````html
+<div class="gy-ui-account-info" data-field="profile.firstName"></div>
+````
+
 ### ````if```` markup
 ````if```` markup allows you to bind element visibility to Gigya state. All bindings are available on both the ````gy-show-if```` and the ````gy-hide-if```` namespaces. ````gy-show-if```` bindings are always **hidden** on page load before the screen is painted and are only revealed when the condition is met (which may require loading state from Gigya). ````gy-hide-if```` bindings are always **visible** on page load and are hidden when the condition is met.
 
