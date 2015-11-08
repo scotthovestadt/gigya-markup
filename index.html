@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gigya Markup: demo</title>
+
+  <!-- Gigya SDK -->
+  <script type="text/javascript" src="http://cdn.gigya.com/JS/socialize.js?apiKey=3_SteGZW-jSAzu5uD0WwQ8OrGtd0kkOqmu24MdyUCUej4z9t01QoNAeLzCO-MfWKPV"></script>
+
+  <!-- Gigya Markup (included after Gigya SDK) -->
+  <script src="dist/gy.js" type="text/javascript"></script>
+</head>
+<body>
+  <div class="gy-show-if-logged-out gy-ui-screen-set" data-screen-set="Default-RegistrationLogin"></div>
+
+  <div class="gy-show-if-logged-in">
+    <div>UID: <span class="gy-ui-account-info" data-field="UID"></span></div>
+    <div>Email: <span class="gy-ui-account-info" data-field="profile.email"></span></div>
+    <div>Nickname: <span class="gy-ui-account-info" data-field="profile.nickname"></span></div>
+    <div>First Name: <span class="gy-ui-account-info" data-field="profile.firstName"></span></div>
+    <div>Last Name: <span class="gy-ui-account-info" data-field="profile.lastName"></span></div>
+    <div>Birth Year: <span class="gy-ui-account-info" data-field="profile.birthYear"></span></div>
+    <div>Zip: <span class="gy-ui-account-info" data-field="profile.zip"></span></div>
+    <div style="margin-top: 15px;"><a class="gy-click-logout" href="javascript: void(0);">Logout</a></div>
+  </div>
+</body>
+</html>
