@@ -3,7 +3,14 @@ All parameters are passed via data-* attributes. No JavaScript required!
 
 [**View demo online with examples.**](http://scotthovestadt.github.io/gigya-markup/)
 
-Install with ````bower install gigya-markup````.
+Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
+````html
+<!-- Official Gigya SDK -->
+<script type="text/javascript" src="http://cdn.gigya.com/JS/socialize.js?apiKey=<API KEY HERE>"></script>
+
+<!-- Gigya Markup (included AFTER official Gigya SDK) -->
+<script src="gy.js" type="text/javascript"></script>
+````
 
 ### ````ui```` Markup
 ````ui```` markup allows rendering of Gigya UI components without JavaScript.
