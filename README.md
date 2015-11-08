@@ -12,6 +12,8 @@ Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
 <script src="gy.js" type="text/javascript"></script>
 ````
 
+## Usage
+
 ### ````ui```` Markup
 ````ui```` markup allows rendering of Gigya UI components without JavaScript.
 
