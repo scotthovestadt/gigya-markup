@@ -1,5 +1,5 @@
 ## Gigya Markup
-All parameters are passed via data-* attributes. No JavaScript required! [**View demo online with examples.**](http://scotthovestadt.github.io/gigya-markup/)
+All parameters are passed via data-* attributes. No JavaScript required! [**View demo online with examples.**](http://scotthovestadt.github.io/gigya-markup/) Install with ````bower install gigya-markup````.
 
 ### ````ui```` Markup
 ````ui```` markup allows rendering of Gigya UI components without JavaScript.
