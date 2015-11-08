@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gigya Markup: if</title>
+
+  <!-- Gigya SDK, socialize.js -->
+  <script type="text/javascript" src="http://cdn.gigya.com/JS/socialize.js?apiKey=3_SteGZW-jSAzu5uD0WwQ8OrGtd0kkOqmu24MdyUCUej4z9t01QoNAeLzCO-MfWKPV"></script>
+
+  <!-- Gigya Markup library (included after socialize.js) -->
+  <script src="/dist/gy.js" type="text/javascript"></script>
+</head>
+<body>
+  <div class="gy-show-if-logged-out">
+    <h3>Please login</h3>
+    <div class="gy-ui-login" style="width: 200px; height: 30px;"></div>
+  </div>
+
+  <div class="gy-show-if-logged-in">
+    <h3>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></h3>
+  </div>
+</div>
+</body>
+</html>

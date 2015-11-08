@@ -1,0 +1,15 @@
+const express = require('express');
+const path = require('path');
+
+const app = express();
+const port = process.env.PORT || 5050;
+app.use(express.static(__dirname + '/.'));
+app.use(express.static(__dirname + '/../build'));
+app.get('/dist/gy.js', function(req, res, next) {
+  res.sendFile(path.resolve(__dirname + '/../dist/gy.js'));
+});
+app.get('/dist/gy.js.map', function(req, res, next) {
+  res.sendFile(path.resolve(__dirname + '/../dist/gy.js.map'));
+});
+app.listen(port);
+console.log('Starting server on port ' + port);
