@@ -23,10 +23,16 @@ Documentation: http://developers.gigya.com/display/GD/socialize.showLoginUI+JS
 <div class="gy-ui-login" data-enabled-providers="facebook,twitter"></div>
 ````
 
-#### Feed UI
-Documentation: http://developers.gigya.com/display/GD/socialize.showFeedUI+JS
+#### Screen Set UI
+Documentation: http://developers.gigya.com/display/GD/accounts.showScreenSet+JS
 ````html
-<div class="gy-ui-feed"></div>
+<div class="gy-ui-screen-set" data-screen-set="Default-RegistrationLogin"></div>
+````
+
+#### Account Info
+Binds to [Profile](http://developers.gigya.com/display/GD/Profile+JS) field for logged-in user. Blank when user is not logged in.
+````html
+<div class="gy-ui-account-info" data-field="profile.firstName"></div>
 ````
 
 #### Share Bar UI
@@ -35,16 +41,28 @@ Documentation: http://developers.gigya.com/display/GD/socialize.showShareBarUI+J
 <div class="gy-ui-share-bar" data-share-buttons="share,facebook,facebook-like,googleplus"></div>
 ````
 
-#### Screen Set UI
-Documentation: http://developers.gigya.com/display/GD/accounts.showScreenSet+JS
+#### Leaderboard UI
+Documentation: http://developers.gigya.com/display/GD/gm.showLeaderboardUI+JS
 ````html
-<div class="gy-ui-screen-set" data-screen-set="Default-RegistrationLogin"></div>
+<div class="gy-ui-leaderboard"></div>
 ````
 
-#### Account Info UI
-Binds to [Profile](http://developers.gigya.com/display/GD/Profile+JS) field for logged-in user. Blank when user is not logged in.
+#### Challenge Status UI
+Documentation: http://developers.gigya.com/display/GD/gm.showChallengeStatusUI+JS
 ````html
-<div class="gy-ui-account-info" data-field="profile.firstName"></div>
+<div class="gy-ui-challenge-status"></div>
+````
+
+#### User Status UI
+Documentation: http://developers.gigya.com/display/GD/gm.showUserStatusUI+JS
+````html
+<div class="gy-ui-user-status"></div>
+````
+
+#### Feed UI
+Documentation: http://developers.gigya.com/display/GD/socialize.showFeedUI+JS
+````html
+<div class="gy-ui-feed"></div>
 ````
 
 ### ````if```` markup
