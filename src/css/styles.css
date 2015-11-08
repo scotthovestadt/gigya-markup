@@ -1,0 +1,13 @@
+/* Set cursor to hand on clickable elements */
+:--gy-click {
+  cursor: pointer;
+}
+
+/* Hide elements that are only shown conditionally initially */
+:--gy-show-if {
+  display: none;
+}
+
+/* Show initially, hide conditionally */
+:--gy-hide-if {
+}
