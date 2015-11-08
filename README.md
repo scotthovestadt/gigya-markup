@@ -1,7 +1,7 @@
 ## Gigya Markup
 All parameters are passed via data-* attributes. No JavaScript required!
 
-[**View demo online with examples.**](http://scotthovestadt.github.io/gigya-markup/)
+[**View markup-only demo online.**](http://scotthovestadt.github.io/gigya-markup/)
 
 Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
 ````html
