@@ -11,12 +11,19 @@ class Account extends EventEmitter {
 
     // When account information is updated.
     const onAccount = (account) => {
-      this.initialized = true;
+      let changed = false;
+      if(!this.initialized) {
+        this.initialized = true;
+        changed=  true;
+      }
       if(!account.UID) {
         account = undefined;
       }
       if(!_.isEqual(account, this.account)) {
         this.account = account;
+        changed = true;
+      }
+      if(changed) {
         this.emit('changed');
       }
     };
