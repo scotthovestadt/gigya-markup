@@ -15,7 +15,7 @@ Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
 ## Side-by-side code comparison
 Compare Gigya SDK-only code with the Gigya Markup alternative. (Note: Gigya Markup sits on top of the Gigya SDK and they can be used together when necessary.)
 
-### Gigya Markup
+### Markup only
 ````html
 <!-- Will only show when the user is logged out, visible by default (gy-hide-if). -->
 <div class="gy-hide-if-logged-out">
