@@ -12,7 +12,24 @@ Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
 <script src="gy.js" type="text/javascript"></script>
 ````
 
-## Usage
+## Usage Example
+````html
+<!-- Will only show when the user is logged out, visible by default (gy-hide-if). -->
+<div class="gy-hide-if-logged-out">
+  <h4>Please login</h4>
+
+    <!-- Render login UI. -->
+  <div class="gy-ui-login"></div>
+</div>
+
+<!-- Will only show when the user is logged in, invisible by default (gy-show-if). -->
+<div class="gy-show-if-logged-in">
+  <!-- Renders field from account info. -->
+  <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></h4>
+</div>
+````
+
+## Markup
 
 ### ````ui```` Markup
 ````ui```` markup allows rendering of Gigya UI components without JavaScript.
