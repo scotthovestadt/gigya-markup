@@ -1,7 +1,7 @@
 ## Gigya Markup
-All parameters are passed via data-* attributes. Width and height of UI elements automatically set from element box model. No JavaScript required!
+All parameters are passed via data-* attributes. Dimensions of UI elements automatically set from CSS. No JavaScript required!
 
-[**View markup-only demo online.**](http://scotthovestadt.github.io/gigya-markup/) View [source code](https://github.com/scotthovestadt/gigya-markup/blob/master/index.html).
+[**View markup-only demo.**](http://scotthovestadt.github.io/gigya-markup/) View [source code](https://github.com/scotthovestadt/gigya-markup/blob/master/index.html).
 
 Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
 ````html
@@ -16,19 +16,26 @@ Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
 Compare Gigya SDK-only code with the Gigya Markup alternative. (Note: Gigya Markup sits on top of the Gigya SDK and they can be used together when necessary.)
 
 ### Markup only
+<a href="examples/code-comparison-markup.html">View code in browser.</a>
 ````html
 <!-- Will only show when the user is logged out, visible by default (gy-hide-if). -->
-<div class="gy-hide-if-logged-out">
+<div class="gy-hide-if-logged-in">
   <h4>Please login</h4>
 
   <!-- Render login UI. -->
-  <div class="gy-ui-login"></div>
+  <!-- Dimensions set via CSS (inline is NOT required), not JavaScript. -->
+  <div class="gy-ui-login"
+       data-enabled-providers="facebook, twitter, linkedin, google"
+       style="width: 140px; height: 35px;"></div>
 </div>
 
 <!-- Will only show when the user is logged in, invisible by default (gy-show-if). -->
 <div class="gy-show-if-logged-in">
   <!-- Renders field from account info. -->
   <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></span></h4>
+
+  <!-- Logout when clicked. -->
+  <a class="gy-click-logout" href="#">Logout</a>
 </div>
 ````
 
@@ -37,11 +44,21 @@ Compare Gigya SDK-only code with the Gigya Markup alternative. (Note: Gigya Mark
 <script type="text/javascript">
 $(document).ready(function() {
   // Render login UI.
+  // Dimensions must be set in JavaScript code.
   gigya.socialize.showLoginUI({
-    containerID: 'login-ui'
+    containerID: 'login-ui',
+    enabledProviders: 'facebook, twitter, linkedin, google',
+    width: 140,
+    height: 35
+  });
+
+  // Bind to logout link.
+  $('.logout').on('click', function() {
+    gigya.accounts.logout();
   });
 
   // Bind to account.
+  // This code must know about EVERY place on the page that needs to render account information.
   gigya.accounts.addEventHandlers({
     onLogin: drawElements,
     onLogout: drawElements
@@ -65,20 +82,21 @@ $(document).ready(function() {
 });
 </script>
 
-<div style="display: none;" class="not-logged-in-container">
+<div class="not-logged-in-container">
   <h4>Please login</h4>
   <div id="login-ui"></div>
 </div>
 
-<div class="logged-in-container">
+<div style="display: none;" class="logged-in-container">
   <h4>Welcome back <span class="first-name"></span></h4>
+  <a class="logout" href="#">Logout</a>
 </div>
 ````
 
 ## Markup
 
 ### ````ui```` markup
-````ui```` markup allows rendering of Gigya UI components without JavaScript.
+````ui```` markup allows rendering of Gigya UI components without JavaScript. Gigya UI methods typically include ````containerID````, ````width````, and ````height````. ````containerID```` is automatically set to the ID of the element (when necessary, a new ID is created and attached). ````width```` and ````height```` are automatically set from CSS and do not need to manually be provided.
 
 #### Login UI
 Documentation: http://developers.gigya.com/display/GD/socialize.showLoginUI+JS
