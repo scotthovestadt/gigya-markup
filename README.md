@@ -16,7 +16,7 @@ Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
 Compare Gigya SDK-only code with the Gigya Markup alternative. (Note: Gigya Markup sits on top of the Gigya SDK and they can be used together when necessary.)
 
 ### Markup only
-<a href="examples/code-comparison-markup.html">View code in browser.</a>
+<a href="http://scotthovestadt.github.io/gigya-markup/examples/code-comparison-markup.html">View code in browser.</a>
 ````html
 <!-- Will only show when the user is logged out, visible by default (gy-hide-if). -->
 <div class="gy-hide-if-logged-in">
