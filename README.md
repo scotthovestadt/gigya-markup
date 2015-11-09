@@ -1,5 +1,5 @@
 ## Gigya Markup
-All parameters are passed via data-* attributes. No JavaScript required!
+All parameters are passed via data-* attributes. Width and height of UI elements automatically set from element box model. No JavaScript required!
 
 [**View markup-only demo online.**](http://scotthovestadt.github.io/gigya-markup/) View [source code](https://github.com/scotthovestadt/gigya-markup/blob/master/index.html).
 
