@@ -12,26 +12,72 @@ Install with ````bower install gigya-markup```` and place in ````<head>```` tag:
 <script src="gy.js" type="text/javascript"></script>
 ````
 
-## Usage Example
+## Side-by-side code comparison
+Compare Gigya SDK-only code with the Gigya Markup alternative. (Note: Gigya Markup sits on top of the Gigya SDK and they can be used together when necessary.)
+
+### Gigya Markup
 ````html
 <!-- Will only show when the user is logged out, visible by default (gy-hide-if). -->
 <div class="gy-hide-if-logged-out">
   <h4>Please login</h4>
 
-    <!-- Render login UI. -->
+  <!-- Render login UI. -->
   <div class="gy-ui-login"></div>
 </div>
 
 <!-- Will only show when the user is logged in, invisible by default (gy-show-if). -->
 <div class="gy-show-if-logged-in">
   <!-- Renders field from account info. -->
-  <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></h4>
+  <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></span></h4>
+</div>
+````
+
+### Gigya SDK only
+````html
+<script type="text/javascript">
+$(document).ready(function() {
+  // Render login UI.
+  gigya.socialize.showLoginUI({
+    containerID: 'login-ui'
+  });
+
+  // Bind to account.
+  gigya.accounts.addEventHandlers({
+    onLogin: drawElements,
+    onLogout: drawElements
+  });
+  gigya.accounts.getAccountInfo({
+    callback: drawElements
+  });
+  function drawElements(account) {
+    if(account && account.UID) {
+      // User is logged in.
+      $('.logged-in-container').show();
+      $('.not-logged-in-container').hide();
+      $('.first-name').text(account && account.profile ? account.profile.firstName : '');
+    } else {
+      // User is not logged in.
+      $('.logged-in-container').hide();
+      $('.not-logged-in-container').show();
+      $('.first-name').text('');
+    }
+  }
+});
+</script>
+
+<div style="display: none;" class="not-logged-in-container">
+  <h4>Please login</h4>
+  <div id="login-ui"></div>
+</div>
+
+<div class="logged-in-container">
+  <h4>Welcome back <span class="first-name"></span></h4>
 </div>
 ````
 
 ## Markup
 
-### ````ui```` Markup
+### ````ui```` markup
 ````ui```` markup allows rendering of Gigya UI components without JavaScript.
 
 #### Login UI
@@ -94,7 +140,7 @@ Bind element visibility to login state. In the example code below, the contents 
 </div>
 
 <div class="gy-show-if-logged-in">
-  <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></h4>
+  <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></span></h4>
 </div>
 ````
 
