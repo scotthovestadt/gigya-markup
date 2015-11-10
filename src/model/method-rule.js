@@ -1,6 +1,13 @@
 const _ = require('lodash');
 const Rule = require('./rule.js');
 
+// Create map of lowercased param names to correctly cased param names
+const normalizedParamNames = {};
+_.each(['containerID', 'streamID', 'categoryID', 'UID', 'feedID', 'linkedCommentsUI'], (paramName) => {
+  normalizedParamNames[paramName.toLowerCase()] = paramName;
+});
+
+
 /**
  * Rule that executes a method bound to element
  */
@@ -15,7 +22,20 @@ class MethodRule extends Rule {
    * Merge defaults with params attached to element
    */
   _params($el) {
-    return _.merge($el.data(), this._defaults);
+    // Get camel cased parameters from element data
+    const params = $el.data();
+
+    // Normalize parameters to Gigya casing
+    // Handles method names that aren't camel cased, like containerID, streamID and UID
+    _.each(params, (value, key) => {
+      if(normalizedParamNames[key.toLowerCase()]) {
+        delete params[key];
+        params[normalizedParamNames[key.toLowerCase()]] = value;
+      }
+    });
+
+    // Merge parameters with defaults
+    return _.merge(params, this._defaults);
   }
 
   /**
