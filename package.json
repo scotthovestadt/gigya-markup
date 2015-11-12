@@ -10,7 +10,7 @@
     "url": "git@github.com:scotthovestadt/gigya-markup"
   },
   "scripts": {
-    "precommit": "gulp build-prod"
+    "precommit": "gulp build-prod; git add dist/gy.js; git add dist/gy.js.map;"
   },
   "devDependencies": {
     "babel": "5.8.23",
