@@ -8,7 +8,7 @@ const rules = _.map([
   { name: 'share-bar', method: 'gigya.socialize.showShareBarUI', defaults: { userAction: {} } },
   { name: 'comments', method: 'gigya.comments.showCommentsUI' },
   { name: 'rating', method: 'gigya.comments.showRatingUI' },
-  { name: 'screen-set', method: 'gigya.accounts.showScreenSet' },
+  { name: 'screen-set', method: 'gigya.accounts.showScreenSet', renderOnAccountChanged: true },
   { name: 'achievements', method: 'gigya.gm.showAchievementsUI' },
   { name: 'challenge-status', method: 'gigya.gm.showChallengeStatusUI' },
   { name: 'leaderboard', method: 'gigya.gm.showLeaderboardUI' },

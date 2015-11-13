@@ -1,6 +1,9 @@
 const Account = require('../model/account.js');
 
-/**
- * Init and return instance of Account
- */
-module.exports = new Account();
+// Init single instance of Account
+const account = new Account();
+
+// Prevent "possible EventEmitter memory leak detected"
+account.setMaxListeners(100);
+
+module.exports = account;

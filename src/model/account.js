@@ -14,7 +14,7 @@ class Account extends EventEmitter {
       let changed = false;
       if(!this.initialized) {
         this.initialized = true;
-        changed=  true;
+        changed = true;
       }
       if(!account.UID) {
         account = undefined;
