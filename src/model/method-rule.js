@@ -1,15 +1,14 @@
 const _ = require('lodash');
 const Rule = require('./rule.js');
 
-// Create map of lowercased param names to correctly cased param names
+// Create map of lowercased param names to correctly cased param names.
 const normalizedParamNames = {};
 _.each(['containerID', 'streamID', 'categoryID', 'UID', 'feedID', 'linkedCommentsUI'], (paramName) => {
   normalizedParamNames[paramName.toLowerCase()] = paramName;
 });
 
-
 /**
- * Rule that executes a method bound to element
+ * Absteact rule that executes a method bound to element. Extended by other rules.
  */
 class MethodRule extends Rule {
   constructor({ method, defaults }) {
@@ -19,14 +18,17 @@ class MethodRule extends Rule {
   }
 
   /**
-   * Merge defaults with params attached to element
+   * Merge defaults with params attached to element.
+   *
+   * @param {JQueryElement} $el
+   * @return {Object}
    */
-  _params($el) {
-    // Get camel cased parameters from element data
+  _params({ $el }) {
+    // Get camel cased parameters from element data.
     const params = $el.data();
 
-    // Normalize parameters to Gigya casing
-    // Handles method names that aren't camel cased, like containerID, streamID and UID
+    // Normalize parameters to Gigya casing.
+    // Handles method names that aren't camel cased, like containerID, streamID and UID.
     _.each(params, (value, key) => {
       if(normalizedParamNames[key.toLowerCase()]) {
         delete params[key];
@@ -35,17 +37,30 @@ class MethodRule extends Rule {
     });
 
     // Merge parameters with defaults
-    return _.merge(params, this._defaults);
+    return _.merge({}, this._defaults, params);
   }
 
   /**
-   * Call method
+   * Call method on Gigya SDK.
+   *
+   * @param {JQueryElement} $el
    */
-  method($el) {
+  method({ $el, overrideParams }) {
     // global = window
-    // method = 'gigya.socialize.showLoginUI'
-    // Will get method and call
-    _.get(global, this._method)(this._params($el));
+    // method = 'gigya.socialize.showLoginUI' or similar (string).
+    // Will get method from Gigya namespace on window and execute.
+    try {
+      const params = _.merge(this._params({ $el }), overrideParams);
+      _.get(global, this._method)(params);
+    } catch(e) {
+      if(console && console.error) {
+        console.error(`Failed to call method "${this._method}"`, e);
+        if(e && e.stack) {
+          console.error(e.stack);
+        }
+      }
+      return false;
+    }
   }
 }
 

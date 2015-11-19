@@ -3,8 +3,8 @@ const IfRule = require('../model/if-rule.js');
 
 /**
  * Create two sets of rules, gy-show-if and gy-hide-if:
- * - gy-show-if elements are hidden by default and shown only when() = true
- * - gy-hide-if elements are shown by default and hidden only when() = true
+ * - gy-show-if elements are hidden by default and shown only when() = true.
+ * - gy-hide-if elements are shown by default and hidden only when() = true.
  *
  * Internally, a rule's when() should return undefined when the value isn't yet known.
  */

@@ -2,9 +2,14 @@ const _ = require('lodash');
 const EventEmitter = require('events').EventEmitter;
 
 /**
- * Extends EventEmitter to allow it to emit events
+ * Base class for all rules. Handles the logic for creating CSS selectors to find elements.
  */
 class Rule extends EventEmitter {
+  /**
+   * @param {String} element - Selector prefix, for example "gy-show-if".
+   * @param {String} name - Selector postfix, for example "not-logged-in".
+   * @param {Array} names
+   */
   constructor({ element, name, names }) {
     super();
 
@@ -17,7 +22,9 @@ class Rule extends EventEmitter {
   }
 
   /**
-   * Generates CSS selector
+   * Generates CSS selectors.
+   *
+   * @return {String}
    */
   _selector() {
     let selector = [];

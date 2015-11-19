@@ -3,16 +3,16 @@ const $ = require('jquery');
 const MethodRule = require('./method-rule.js');
 
 /**
- * Rule that executes method when element clicked
+ * Rule that executes method when element clicked.
  */
 class ClickRule extends MethodRule {
   bind($container) {
-    // Find all elements that match our rule selector
+    // Bind click event.
     $($container).on('click.ClickRule', this._selector(), (e) => {
-      // Call Gigya method attached to the clicked element
-      this.method($(e.target));
+      // Call Gigya method attached to the clicked element.
+      this.method({ $el: $(e.target) });
 
-      // Cancel default click event
+      // Cancel default click event.
       e.preventDefault();
     });
   }

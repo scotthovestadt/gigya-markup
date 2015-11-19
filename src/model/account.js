@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const EventEmitter = require('events');
-const gigya = require('../lib/gigya.js');
 
 /**
  * Account singleton mirrors current Gigya user session.
@@ -29,6 +28,7 @@ class Account extends EventEmitter {
     };
 
     // Don't bind to Gigya if SDK not available.
+    const gigya = global.gigya;
     if(!gigya) {
       if(console && console.error) {
         console.error('Gigya SDK not available, cannot bind to account.');

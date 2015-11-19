@@ -98,6 +98,8 @@ $(document).ready(function() {
 ### ````ui```` markup
 ````ui```` markup allows rendering of Gigya UI components without JavaScript. Gigya UI methods typically include ````containerID````, ````width````, and ````height````. ````containerID```` is automatically set to the ID of the element (when necessary, a new ID is created and attached). ````width```` and ````height```` are automatically set from CSS and do not need to manually be provided.
 
+If a UI fails to render, the message "An error has occurred. Please try again later." will be shown in place of the UI. To customize this message, the parameter ````data-error-message```` can be passed via markup.
+
 #### Login UI
 Documentation: http://developers.gigya.com/display/GD/socialize.showLoginUI+JS
 ````html
