@@ -1,6 +1,6 @@
 {
   "name": "gigya-markup",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "HTML markup extensions on top of the Gigya JavaScript SDK for rendering and data-binding.",
   "main": "dist/gy.js",
   "author": "Scott Hovestadt <scott.hovestadt@gmail.com>",

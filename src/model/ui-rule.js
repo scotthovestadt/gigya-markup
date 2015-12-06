@@ -93,7 +93,7 @@ class UiRule extends MethodRule {
         setTimeout(() => {
           if(loaded) {
             whenLoaded();
-          } else if(attempts <= 5) {
+          } else if(attempts <= 20) {
             attempts++;
             waitForLoad();
           } else {
