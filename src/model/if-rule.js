@@ -25,7 +25,7 @@ class IfRule extends Rule {
    * Emit "changed" if our when() value changes. Listened to internally.
    */
   _onDigest() {
-    let newWhen = this._when();
+    const newWhen = this._when();
     if(this.when !== newWhen) {
       this.when = newWhen;
       this.emit('changed');
