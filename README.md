@@ -151,8 +151,8 @@ Documentation: http://developers.gigya.com/display/GD/socialize.showFeedUI+JS
 ### ````if```` markup
 ````if```` markup allows you to bind element visibility to Gigya state. All bindings are available on both the ````gy-show-if```` and the ````gy-hide-if```` namespaces. ````gy-show-if```` bindings are always **hidden** on page load before the screen is painted and are only revealed when the condition is met (which may require loading state from Gigya). ````gy-hide-if```` bindings are always **visible** on page load and are hidden when the condition is met.
 
-#### Login State
-Bind element visibility to login state. In the example code below, the contents of ````if-logged-out```` is only shown when the user is logged out and the contents of ````if-logged-in```` is only shown when the user is logged in.
+#### Session
+Bind element visibility to session. In the example code below, the contents of ````if-logged-out```` is only shown when the user is logged out and the contents of ````if-logged-in```` is only shown when the user is logged in.
 ````html
 <div class="gy-show-if-logged-out">
   <h4>Please login</h4>
@@ -161,6 +161,14 @@ Bind element visibility to login state. In the example code below, the contents 
 
 <div class="gy-show-if-logged-in">
   <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></span></h4>
+</div>
+````
+
+#### Conditional
+Bind element visibility to condition. Use ````account.get```` to safely access even deep fields eg "profile.firstName".
+````html
+<div class="gy-show-if-condition" data-condition="account.get('loginProvider') === 'facebook'">
+  This only shows up if you login with Facebook.
 </div>
 ````
 

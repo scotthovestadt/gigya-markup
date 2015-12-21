@@ -24,19 +24,37 @@
   </div>
 
   <div class="gy-show-if-logged-in">
-    <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></span></h4>
+    <div><strong>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></span>!</strong></div>
+
+    <div class="gy-show-if-condition" data-condition="account.get('loginProvider') === 'facebook'">
+      This only shows up if you login with Facebook.
+    </div>
+
+    <div class="gy-show-if-condition" data-condition="account.get('loginProvider') !== 'facebook'">
+      This only shows up if you don't login with Facebook.
+    </div>
+
+    <div><a class="gy-click-logout" href="#">Logout</a></div>
   </div>
 
-<pre><code class="javascript">
-&lt;div class=&quot;gy-show-if-logged-out&quot;&gt;<br />
-&nbsp;&nbsp;  &lt;h4&gt;Please login&lt;/h4&gt;<br />
-&nbsp;&nbsp;  &lt;div class=&quot;gy-ui-login&quot; style=&quot;width: 200px; height: 30px;&quot;&gt;&lt;/div&gt;<br />
-&lt;/div&gt;<br />
-<br />
-&lt;div class=&quot;gy-show-if-logged-in&quot;&gt;<br />
-&nbsp;&nbsp;  &lt;h4&gt;Welcome back &lt;span class=&quot;gy-ui-account-info&quot; data-field=&quot;profile.firstName&quot;&gt;&lt;/span&gt;&lt;/h4&gt;<br />
-&lt;/div&gt;<br />
-</code></pre>
+<pre><code class="javascript">&#x3C;div class=&#x22;gy-show-if-logged-out&#x22;&#x3E;
+  &#x3C;h4&#x3E;Please login&#x3C;/h4&#x3E;
+  &#x3C;div class=&#x22;gy-ui-login&#x22; style=&#x22;width: 200px; height: 30px;&#x22;&#x3E;&#x3C;/div&#x3E;
+&#x3C;/div&#x3E;
+
+&#x3C;div class=&#x22;gy-show-if-logged-in&#x22;&#x3E;
+  &#x3C;div&#x3E;&#x3C;strong&#x3E;Welcome back &#x3C;span class=&#x22;gy-ui-account-info&#x22; data-field=&#x22;profile.firstName&#x22;&#x3E;&#x3C;/span&#x3E;!&#x3C;/strong&#x3E;&#x3C;/div&#x3E;
+
+  &#x3C;div class=&#x22;gy-show-if-condition&#x22; data-condition=&#x22;account.get(&#x27;loginProvider&#x27;) === &#x27;facebook&#x27;&#x22;&#x3E;
+    This only shows up if you login with Facebook.
+  &#x3C;/div&#x3E;
+
+  &#x3C;div class=&#x22;gy-show-if-condition&#x22; data-condition=&#x22;account.get(&#x27;loginProvider&#x27;) !== &#x27;facebook&#x27;&#x22;&#x3E;
+    This only shows up if you don&#x27;t login with Facebook.
+  &#x3C;/div&#x3E;
+
+  &#x3C;div&#x3E;&#x3C;a class=&#x22;gy-click-logout&#x22; href=&#x22;#&#x22;&#x3E;Logout&#x3C;/a&#x3E;&#x3C;/div&#x3E;
+&#x3C;/div&#x3E;</code></pre>
 
 </div>
 </body>

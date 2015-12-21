@@ -10,7 +10,8 @@ const IfRule = require('../model/if-rule.js');
  */
 const _rules = [
   { names: ['not-logged-in', 'logged-out'], when: ({ account }) => account.isInitialized() ? !account.isLoggedIn() : undefined },
-  { names: ['logged-in', 'not-logged-out'], when: ({ account }) => account.isInitialized() ? account.isLoggedIn() : undefined }
+  { names: ['logged-in', 'not-logged-out'], when: ({ account }) => account.isInitialized() ? account.isLoggedIn() : undefined },
+  { names: ['condition'], when: ({ account, $el }) => eval($el.data('condition')) }
 ];
 const rules = _.map(_rules, (rule) => {
   rule.element = 'gy-show-if';

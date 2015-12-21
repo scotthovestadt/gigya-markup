@@ -36,16 +36,29 @@ class Account extends EventEmitter {
       return;
     }
 
-    // Bind to account events.
+    // The onLogin event doesn't contain the full Account object.
+    // However, to generate the onLogin event, getAccountInfo is called.
+    // This will listen to ALL getAccountInfo calls and update the watched Account object.
+    gigya.events.addMap({
+      eventMap: [{
+        events: 'afterResponse',
+        args: [function(e) { return e }],
+        method: function(e) {
+          if(typeof e === 'object' && e.methodName === 'accounts.getAccountInfo') {
+            onAccount(e.response);
+          }
+        }
+      }]
+    });
+
+    // Bind to logout event.
     gigya.accounts.addEventHandlers({
-      onLogin: onAccount,
       onLogout: onAccount
     });
 
-    // Get user session.
-    gigya.accounts.getAccountInfo({
-      callback: onAccount
-    });
+    // Get current user session.
+    // (Callback is the event binding above.)
+    gigya.accounts.getAccountInfo();
   }
 
   /**
