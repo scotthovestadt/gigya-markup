@@ -16,7 +16,7 @@ const transformTools = require('browserify-transform-tools');
 const globby = require('globby');
 
 /**
- * Paths used in build process
+ * Paths used in build process.
  */
 const paths = {};
 paths.build = './dist/';
@@ -27,7 +27,7 @@ paths.css = paths.src + 'css/';
 paths.cssGlob = paths.css + '*.css';
 
 /**
- * Log error and beep
+ * Log error and beep.
  */
 function onError(err) {
   _gulp.util.log(_gulp.util.colors.red(err.message));
@@ -36,10 +36,10 @@ function onError(err) {
 }
 
 /**
- * Browserify transformer: Compile CSS into JS
+ * Browserify transformer: Compile CSS into JS.
  */
 function transformCss() {
-  // Create custom selectors
+  // Create custom selectors.
   // Example: @custom-select :--gy-click .gy-click-share, .gy-click-screen-set, ...
   let customSelectors = '';
   [bindIf.rules, bindClick.rules, bindUi.rules].forEach((rules) => {
@@ -58,16 +58,16 @@ function transformCss() {
     'transformCss',
     { includeExtensions: ['.css'] },
     (content, transformOptions, done) => {
-      // Append custom selectors to top of every CSS file
+      // Append custom selectors to top of every CSS file.
       content = customSelectors + content;
 
-      // Transform CSS4 to CSS3
+      // Transform CSS4 to CSS3.
       content = postcss([
-        // Replace custom selectors with CSS3 selectors
+        // Replace custom selectors with CSS3 selectors.
         _postcss.customSelectors()
       ]).process(content).css;
 
-      // Convert file to Javascript that is automatically inserted into the head
+      // Convert file to Javascript that is automatically inserted into the DOM.
       content = `
         const $ = require('jquery');
         const css = \`${content}\`;
@@ -80,65 +80,65 @@ function transformCss() {
 }
 
 /**
- * Compile JS distributable
+ * Compile JS distributable.
  */
 function compileScripts(watch, compress) {
-  // Create browserify bundler
+  // Create browserify bundler.
   const bundler = browserify({
-    // Entry points
+    // Entry points.
     entries: globby.sync([paths.main, paths.cssGlob]),
 
-    // Enable errors
+    // Enable errors.
     debug: true,
 
     transform: [
-      // Transform CSS to ES6 JS
+      // Transform CSS to ES6 JS.
       transformCss(),
 
-      // Compile ES6 to ES5
+      // Compile all ES6 to ES5.
       babelify.configure({ extensions: ['.js', '.css'] })
     ]
   });
 
   function rebundle() {
-    // Bundle main files
-    // Return stream so gulp knows when we've finished
+    // Bundle main files.
+    // Return stream so gulp knows when we've finished.
     return bundler.bundle()
-      // Log error and beep
+      // Log error and beep.
       .on('error', onError)
 
-      // Output to
+      // Output files to directory.
       .pipe(source(paths.out))
 
-      // Convert from stream to vinyl file object
+      // Convert from stream to vinyl file object.
       .pipe(buffer())
 
-      // Generate source map
+      // Generate source map.
       .pipe(_gulp.sourcemaps.init({ loadMaps: true }))
           // Transform functions here:
 
-          // Log error and beep
+          // Log error and beep.
           .on('error', onError)
 
-          // Uglify code, currently breaks source map with no workaround
+          // Uglify code, currently breaks source map with no workaround.
           .pipe(_gulp.if(compress, _gulp.uglify()))
 
-      // Write .map file
+      // Write source map file.
       .pipe(_gulp.sourcemaps.write('./'))
 
-      // Output to build dir
+      // Output to build dir.
       .pipe(gulp.dest(paths.build));
   }
 
-  // If watch enabled, build on update
+  // If watch enabled, build on update.
   if(watch) {
-    // Emits update when files are changed
+    // Emits update when files are changed.
     watchify(bundler)
       .on('update', () => rebundle())
       .on('log', (message) => _gulp.util.log(_gulp.util.colors.green(message)));
   }
 
-  // Build
+  // Build.
   return rebundle();
 }
 
