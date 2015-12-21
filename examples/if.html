@@ -8,6 +8,11 @@
 
   <!-- Gigya Markup (included after Gigya SDK) -->
   <script src="../dist/gy.js" type="text/javascript"></script>
+
+  <!-- Styles for demo page syntax highlighting -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/github-gist.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
   <div class="back"><a href="index.html">&larr; Back</a></div>
@@ -22,16 +27,17 @@
     <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></span></h4>
   </div>
 
-  <code>
-  &lt;div class=&quot;gy-show-if-logged-out&quot;&gt;<br />
-  &nbsp;&nbsp;  &lt;h4&gt;Please login&lt;/h4&gt;<br />
-  &nbsp;&nbsp;  &lt;div class=&quot;gy-ui-login&quot; style=&quot;width: 200px; height: 30px;&quot;&gt;&lt;/div&gt;<br />
-  &lt;/div&gt;<br />
-  <br />
-  &lt;div class=&quot;gy-show-if-logged-in&quot;&gt;<br />
-  &nbsp;&nbsp;  &lt;h4&gt;Welcome back &lt;span class=&quot;gy-ui-account-info&quot; data-field=&quot;profile.firstName&quot;&gt;&lt;/span&gt;&lt;/h4&gt;<br />
-  &lt;/div&gt;<br />
-  </code>
+<pre><code class="javascript">
+&lt;div class=&quot;gy-show-if-logged-out&quot;&gt;<br />
+&nbsp;&nbsp;  &lt;h4&gt;Please login&lt;/h4&gt;<br />
+&nbsp;&nbsp;  &lt;div class=&quot;gy-ui-login&quot; style=&quot;width: 200px; height: 30px;&quot;&gt;&lt;/div&gt;<br />
+&lt;/div&gt;<br />
+<br />
+&lt;div class=&quot;gy-show-if-logged-in&quot;&gt;<br />
+&nbsp;&nbsp;  &lt;h4&gt;Welcome back &lt;span class=&quot;gy-ui-account-info&quot; data-field=&quot;profile.firstName&quot;&gt;&lt;/span&gt;&lt;/h4&gt;<br />
+&lt;/div&gt;<br />
+</code></pre>
+
 </div>
 </body>
 </html>
