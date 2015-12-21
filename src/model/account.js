@@ -44,7 +44,7 @@ class Account extends EventEmitter {
         events: 'afterResponse',
         args: [function(e) { return e }],
         method: function(e) {
-          if(typeof e === 'object' && e.methodName === 'accounts.getAccountInfo') {
+          if(typeof e === 'object' && (e.methodName === 'accounts.getAccountInfo' || e.methodName === 'accounts.socialLogin')) {
             onAccount(e.response);
           }
         }
