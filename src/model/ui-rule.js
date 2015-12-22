@@ -80,7 +80,9 @@ class UiRule extends MethodRule {
               // Wait for elements to be shown or hidden before re-rendering UI.
               // Element must be visible to calculate box model for width and height.
               setTimeout(() => {
-                this.method({ $el });
+                if(this.renderOnAccountChanged({ $el })) {
+                  this.method({ $el });
+                }
               }, 0);
             }
           });
