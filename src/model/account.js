@@ -10,19 +10,36 @@ class Account extends EventEmitter {
 
     // When account information is updated.
     const onAccount = (account) => {
+      // Was anything changed on account?
       let changed = false;
+
+      // Always emit change event if this is the first account object we've got.
       if(!this.initialized) {
         this.initialized = true;
         changed = true;
       }
-      if(!account.UID) {
+
+      // No UID means no account.
+      if(typeof account !== 'object' || !account.UID) {
         account = undefined;
       }
-      if(!_.isEqual(account, this.account)) {
-        this.account = account;
-        changed = true;
+
+      // Need to do a selective check of account fields because some fields will change every time the account is fetched.
+      if(!changed) {
+        if(typeof account !== typeof this.account ||
+          account.UID !== this.account.UID ||
+          account.socialProviders !== this.account.socialProviders ||
+          account.isRegistered !== this.account.isRegistered ||
+          account.isVerified !== this.account.isVerified ||
+          !_.isEqual(account.profile, this.account.profile) ||
+          !_.isEqual(account.data, this.account.data)) {
+          changed = true;
+        }
       }
+
+      // Set new account object and emit changed event.
       if(changed) {
+        this.account = account;
         this.emit('changed');
       }
     };
