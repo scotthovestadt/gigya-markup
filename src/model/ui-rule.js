@@ -8,7 +8,7 @@ const account = require('../singleton/account.js');
  */
 class UiRule extends MethodRule {
   /**
-   * @param {Boolean} renderOnAccountChanged - Some Gigya UI methods need to be re-rendered when the user logs in or logs out.
+   * @param {Function} renderOnAccountChanged - Some Gigya UI methods need to be re-rendered when the user logs in or logs out.
    */
   constructor({ renderOnAccountChanged = false }) {
     super(arguments[0]);
@@ -70,10 +70,10 @@ class UiRule extends MethodRule {
         return this._failed({ $el });
       }
 
-      // When the UI is loaded.
+      // The renderOnAccountChanged function checks to see if this particular UI needs to be re-rendered when account data is changed.
+      // The embedded Gigya login/registration screenset de-renders itself after login.
+      // This is a problem because if you logout again and try to bring the embedded screenset back up, it's gone.
       const whenLoaded = () => {
-        // Some Gigya UI methods need to be re-rendered when the user logs in or logs out.
-        // Most don't, because they manage state internally.
         if(this.renderOnAccountChanged) {
           account.on('changed', () => {
             if(account.isInitialized()) {
@@ -111,6 +111,8 @@ class UiRule extends MethodRule {
 
   /**
    * Triggered when UI cannot be rendered.
+   *
+   * @param {JQueryElement} $el
    */
   _failed({ $el }) {
     const params = this._params({ $el });

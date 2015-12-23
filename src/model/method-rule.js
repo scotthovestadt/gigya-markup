@@ -3,12 +3,13 @@ const Rule = require('./rule.js');
 
 // Create map of lowercased param names to correctly cased param names.
 const normalizedParamNames = {};
-_.each(['containerID', 'streamID', 'categoryID', 'UID', 'feedID', 'linkedCommentsUI'], (paramName) => {
+_.each(['containerID', 'streamID', 'categoryID', 'UID', 'feedID', 'linkedCommentsUI', 'countURL',
+        'shortURLs', 'autoShareActionID', 'barID'], (paramName) => {
   normalizedParamNames[paramName.toLowerCase()] = paramName;
 });
 
 /**
- * Absteact rule that executes a method bound to element. Extended by other rules.
+ * Abstract rule that executes a method bound to element. Extended by other rules.
  */
 class MethodRule extends Rule {
   constructor({ method, defaults }) {

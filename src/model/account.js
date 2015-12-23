@@ -95,7 +95,7 @@ class Account extends EventEmitter {
   /**
    * Get field from account, supports dot notation.
    *
-   * @return {String|Boolean|Array|Number}
+   * @return {String|Boolean|Array|Number|Object}
    */
   get(field) {
     return _.get(this.account, field);

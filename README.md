@@ -22,14 +22,13 @@ Compare Gigya SDK-only code with the Gigya Markup alternative. (Note: Gigya Mark
 <div class="gy-hide-if-logged-in">
   <h4>Please login</h4>
 
-  <!-- Render login UI. -->
-  <!-- Dimensions set via CSS (inline is NOT required), not JavaScript. -->
+  <!-- Render login UI. Dimensions set via CSS (inline CSS is NOT required). -->
   <div class="gy-ui-login"
        data-enabled-providers="facebook, twitter, linkedin, google"
        style="width: 140px; height: 35px;"></div>
 </div>
 
-<!-- Will only show when the user is logged in, invisible by default (gy-show-if). -->
+<!-- Will only show when the user is logged in, invisible by default before screen is painted (gy-show-if). -->
 <div class="gy-show-if-logged-in">
   <!-- Renders field from account info. -->
   <h4>Welcome back <span class="gy-ui-account-info" data-field="profile.firstName"></span></h4>
@@ -43,8 +42,7 @@ Compare Gigya SDK-only code with the Gigya Markup alternative. (Note: Gigya Mark
 ````html
 <script type="text/javascript">
 $(document).ready(function() {
-  // Render login UI.
-  // Dimensions must be set in JavaScript code.
+  // Render login UI. Dimensions must be set in JavaScript code.
   gigya.socialize.showLoginUI({
     containerID: 'login-ui',
     enabledProviders: 'facebook, twitter, linkedin, google',
@@ -57,8 +55,7 @@ $(document).ready(function() {
     gigya.accounts.logout();
   });
 
-  // Bind to account.
-  // This code must know about EVERY place on the page that needs to render account information.
+  // Bind to account login events and current session.
   gigya.accounts.addEventHandlers({
     onLogin: drawElements,
     onLogout: drawElements

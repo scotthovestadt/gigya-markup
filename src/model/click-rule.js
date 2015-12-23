@@ -6,9 +6,12 @@ const MethodRule = require('./method-rule.js');
  * Rule that executes method when element clicked.
  */
 class ClickRule extends MethodRule {
+  /**
+   * @param {JQueryElements} $container
+   */
   bind($container) {
-    // Bind click event.
-    $($container).on('click.ClickRule', this._selector(), (e) => {
+    // Bind to click event.
+    $($container).on('click.GyClickRule', this._selector(), (e) => {
       // Call Gigya method attached to the clicked element.
       this.method({ $el: $(e.target) });
 
