@@ -27,12 +27,12 @@ class Account extends EventEmitter {
       // Need to do a selective check of account fields because some fields will change every time the account is fetched.
       if(!changed) {
         if(typeof account !== typeof this.account ||
-          account.UID !== this.account.UID ||
-          account.socialProviders !== this.account.socialProviders ||
-          account.isRegistered !== this.account.isRegistered ||
-          account.isVerified !== this.account.isVerified ||
-          !_.isEqual(account.profile, this.account.profile) ||
-          !_.isEqual(account.data, this.account.data)) {
+          _.get(account, 'UID') !== _.get(this.account, 'UID') ||
+          _.get(account, 'socialProviders') !== _.get(this.account, 'socialProviders') ||
+          _.get(account, 'isRegistered') !== _.get(this.account, 'isRegistered') ||
+          _.get(account, 'isVerified') !== _.get(this.account, 'isVerified') ||
+          !_.isEqual(_.get(account, 'profile'), _.get(this.account, 'profile')) ||
+          !_.isEqual(_.get(account, 'data'), _.get(this.account, 'data'))) {
           changed = true;
         }
       }
@@ -47,7 +47,7 @@ class Account extends EventEmitter {
     // Don't bind to Gigya if SDK not available.
     const gigya = global.gigya;
     if(!gigya) {
-      if(console && console.error) {
+      if(typeof console === 'object' && console.error) {
         console.error('Gigya SDK not available, cannot bind to account.');
       }
       return;
@@ -59,8 +59,8 @@ class Account extends EventEmitter {
     gigya.events.addMap({
       eventMap: [{
         events: 'afterResponse',
-        args: [function(e) { return e }],
-        method: function(e) {
+        args: [(e) => { return e }],
+        method: (e) => {
           if(typeof e === 'object' && (e.methodName === 'accounts.getAccountInfo' || e.methodName === 'accounts.socialLogin')) {
             onAccount(e.response);
           }
