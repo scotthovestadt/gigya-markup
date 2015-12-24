@@ -20,7 +20,8 @@ class Account extends EventEmitter {
       }
 
       // No UID means no account.
-      if(typeof account !== 'object' || !account.UID) {
+      const UID = _.get(account, 'UID');
+      if(UID === undefined || UID === '' || UID === null) {
         account = undefined;
       }
 
