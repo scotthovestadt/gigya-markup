@@ -90,7 +90,7 @@ class Account extends EventEmitter {
    * @return {Boolean}
    */
   isLoggedIn() {
-    return !!this.get('UID');
+    return this.get('isRegistered') === true;
   }
 
   /**
