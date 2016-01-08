@@ -55,14 +55,16 @@ class Account extends EventEmitter {
     }
 
     // The onLogin event doesn't contain the full Account object.
-    // However, to generate the onLogin event, getAccountInfo is called.
+    // However, to generate the onLogin event, getAccountInfo may be called.
     // This will listen to ALL getAccountInfo calls and update the watched Account object.
+    // It will also listen for other events carrying account information.
+    const accountMethodNames = ['accounts.getaccountinfo', 'accounts.sociallogin', 'accounts.login']; // Lowercased method names.
     gigya.events.addMap({
       eventMap: [{
         events: 'afterResponse',
         args: [(e) => { return e }],
         method: (e) => {
-          if(typeof e === 'object' && (e.methodName === 'accounts.getAccountInfo' || e.methodName === 'accounts.socialLogin')) {
+          if(typeof e === 'object' && typeof e.methodName === 'string' && typeof e.response === 'object' && _.indexOf(accountMethodNames, e.methodName.toLowerCase()) !== -1) {
             onAccount(e.response);
           }
         }
