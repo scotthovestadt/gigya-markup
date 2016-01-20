@@ -54,18 +54,36 @@ class Account extends EventEmitter {
       return;
     }
 
+    // Lowercased method names containing account information.
+    const accountMethodNames = ['accounts.getaccountinfo', 'accounts.sociallogin', 'accounts.login', 'accounts.finalizeregistration'];
+
+    // Lowercased method names that should trigger us to call getAccountInfo.
+    const triggerMethodNames = ['accounts.setaccountinfo'];
+
     // The onLogin event doesn't contain the full Account object.
     // However, to generate the onLogin event, getAccountInfo may be called.
     // This will listen to ALL getAccountInfo calls and update the watched Account object.
     // It will also listen for other events carrying account information.
-    const accountMethodNames = ['accounts.getaccountinfo', 'accounts.sociallogin', 'accounts.login']; // Lowercased method names.
     gigya.events.addMap({
       eventMap: [{
         events: 'afterResponse',
         args: [(e) => { return e }],
         method: (e) => {
-          if(typeof e === 'object' && typeof e.methodName === 'string' && typeof e.response === 'object' && _.indexOf(accountMethodNames, e.methodName.toLowerCase()) !== -1) {
+          // We rely on the event to have specific values. Check that it's safe before proceeding.
+          if(typeof e !== 'object' || typeof e.methodName !== 'string' || typeof e.response !== 'object') {
+            return;
+          }
+
+          // Normalize method name.
+          const methodName = e.methodName.toLowerCase();
+
+          // Many events contain account information that we want to push straight into our model.
+          if(_.indexOf(accountMethodNames, methodName) !== -1) {
             onAccount(e.response);
+
+          // Other events will trigger us to call getAccountInfo.
+          } else if(_.indexOf(triggerMethodNames, methodName) !== -1) {
+            gigya.accounts.getAccountInfo();
           }
         }
       }]
