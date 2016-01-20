@@ -43,7 +43,7 @@ function transformCss() {
   // Example: @custom-select :--gy-click .gy-click-share, .gy-click-screen-set, ...
   let customSelectors = '';
   [bindIf.rules, bindClick.rules, bindUi.rules].forEach((rules) => {
-    _.uniq(_.pluck(rules, 'element')).forEach((element) => {
+    _.uniq(_.map(rules, 'element')).forEach((element) => {
       customSelectors += `@custom-selector :--${element}`;
       rules.forEach((rule) => {
         if(rule.element === element) {
@@ -96,7 +96,9 @@ function compileScripts(watch, compress) {
       transformCss(),
 
       // Compile all ES6 to ES5.
-      babelify.configure({ extensions: ['.js', '.css'] })
+      babelify.configure({
+        extensions: ['.js', '.css']
+      })
     ]
   });
 
