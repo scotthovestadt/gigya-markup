@@ -55,10 +55,19 @@ class Account extends EventEmitter {
     }
 
     // Lowercased method names containing account information.
-    const accountMethodNames = ['accounts.getaccountinfo', 'accounts.sociallogin', 'accounts.login', 'accounts.finalizeregistration'];
+    const accountMethodNames = [
+      'accounts.getaccountinfo',
+      'accounts.sociallogin',
+      'accounts.login',
+      'accounts.finalizeregistration',
+      'accounts.register',
+      'socialize.notifylogin'
+    ];
 
     // Lowercased method names that should trigger us to call getAccountInfo.
-    const triggerMethodNames = ['accounts.setaccountinfo'];
+    const triggerMethodNames = [
+      'accounts.setaccountinfo'
+    ];
 
     // The onLogin event doesn't contain the full Account object.
     // However, to generate the onLogin event, getAccountInfo may be called.
