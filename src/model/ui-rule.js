@@ -53,9 +53,11 @@ class UiRule extends MethodRule {
       // Elements may not be rendered initially if the account isn't initialized or they are hidden.
       // Additionally, Gigya login/registration screenset de-render themselves after logging in.
       // The user may toggle back and forth between being logged in and logging out.
+      const initialHtml = $el.html();
       this._render({ $el });
       account.on('changed', () => {
-        if(!$el.html()) {
+        const html = $el.html();
+        if(!html || html === initialHtml) {
           this._render({ $el });
         }
       });
