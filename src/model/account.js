@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const store = require('store');
 const EventEmitter = require('events');
 
 /**
@@ -8,7 +9,16 @@ class Account extends EventEmitter {
   constructor() {
     super();
 
-    // When account information is updated.
+    // Don't bind to Gigya if SDK not available.
+    const gigya = global.gigya;
+    if(!gigya) {
+      if(typeof console === 'object' && console.error) {
+        console.error('Gigya SDK not available, cannot bind to account.');
+      }
+      return;
+    }
+
+    // When account information is updated check to see if changed.
     const onAccount = (account) => {
       // Was anything changed on account?
       let changed = false;
@@ -45,13 +55,16 @@ class Account extends EventEmitter {
       }
     };
 
-    // Don't bind to Gigya if SDK not available.
-    const gigya = global.gigya;
-    if(!gigya) {
-      if(typeof console === 'object' && console.error) {
-        console.error('Gigya SDK not available, cannot bind to account.');
+    // When account information is changed cache login state to prevent flicker.
+    if(store.enabled) {
+      const localStorageKey = 'gy__account';
+      this.on('changed', () => {
+        store.set(localStorageKey, this.account);
+      });
+      const cachedAccount = store.get(localStorageKey);
+      if(typeof cachedAccount === 'object') {
+        onAccount(cachedAccount);
       }
-      return;
     }
 
     // Lowercased method names containing account information.

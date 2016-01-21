@@ -10,7 +10,7 @@ gy.accountInfoUi = require('./method/account-info-ui.js');
 // When document ready, bind automatically.
 $(document).ready(() => {
   const $body = $('body');
-  gy.ui($body);
   gy.if($body);
+  gy.ui($body);
   gy.click($body);
 });

@@ -8,18 +8,9 @@ const account = require('../singleton/account.js');
  */
 class UiRule extends MethodRule {
   /**
-   * @param {Function} renderOnAccountChanged - Some Gigya UI methods need to be re-rendered when the user logs in or logs out.
-   */
-  constructor({ renderOnAccountChanged = false }) {
-    super(arguments[0]);
-
-    this.renderOnAccountChanged =  renderOnAccountChanged;
-  }
-
-  /**
    * Parse parameters from element attributes.
    *
-   * @param {JQueryElement} $container
+   * @param {JQueryElement} $el
    * @return {Object}
    */
   _params({ $el }) {
@@ -58,55 +49,57 @@ class UiRule extends MethodRule {
         $el.attr('id', _.uniqueId('gy-ui-'));
       }
 
-      // onLoad handler and fallback if never triggered.
-      let loaded = false;
-      const onLoad = () => {
-        loaded = true;
-      };
-
-      // Call Gigya method attached to the clicked element to render UI.
-      if(this.method({ $el, overrideParams: { onLoad } }) === false) {
-        // Returns false if the method fails to execute. Typically means Gigya SDK is not available.
-        return this._failed({ $el });
-      }
-
-      // The renderOnAccountChanged function checks to see if this particular UI needs to be re-rendered when account data is changed.
-      // The embedded Gigya login/registration screenset de-renders itself after login.
-      // This is a problem because if you logout again and try to bring the embedded screenset back up, it's gone.
-      const whenLoaded = () => {
-        if(this.renderOnAccountChanged) {
-          account.on('changed', () => {
-            if(account.isInitialized()) {
-              // Wait for elements to be shown or hidden before re-rendering UI.
-              // Element must be visible to calculate box model for width and height.
-              setTimeout(() => {
-                if(this.renderOnAccountChanged({ $el })) {
-                  this.method({ $el });
-                }
-              }, 0);
-            }
-          });
+      // Render element. If element is blank, re-render when account status changes.
+      // Elements may not be rendered initially if the account isn't initialized or they are hidden.
+      // Additionally, Gigya login/registration screenset de-render themselves after logging in.
+      // The user may toggle back and forth between being logged in and logging out.
+      this._render({ $el });
+      account.on('changed', () => {
+        if(!$el.html()) {
+          this._render({ $el });
         }
-      }
-
-      // Wait for UI to load.
-      let attempts = 0;
-      const waitForLoad = () => {
-        setTimeout(() => {
-          if(loaded) {
-            whenLoaded();
-          } else if(attempts <= 20) {
-            attempts++;
-            waitForLoad();
-          } else {
-            this._failed({ $el });
-          }
-        }, 500);
-      }
-      waitForLoad();
-
-      return;
+      });
     });
+  }
+
+  /**
+   * Used to render UI.
+   *
+   * @param {JQueryElement} $el
+   */
+  _render({ $el }) {
+    // Do not render if account is not yet initialized or in hidden container.
+    if(!account.isInitialized() || $el.is(':hidden') === true) {
+      return;
+    }
+
+    // onLoad handler and fallback if never triggered.
+    let loaded = false;
+    const onLoad = () => {
+      loaded = true;
+    };
+
+    // Call Gigya method attached to the clicked element to render UI.
+    if(this.method({ $el, overrideParams: { onLoad } }) === false) {
+      // Returns false if the method fails to execute. Typically means Gigya SDK is not available.
+      return this._failed({ $el });
+    }
+
+    // Wait for UI to load.
+    let attempts = 0;
+    const waitForLoad = () => {
+      setTimeout(() => {
+        if(loaded) {
+          // Done.
+        } else if(attempts <= 20) {
+          attempts++;
+          waitForLoad();
+        } else {
+          this._failed({ $el });
+        }
+      }, 500);
+    }
+    waitForLoad();
   }
 
   /**
