@@ -4,13 +4,13 @@ All parameters are passed via data-* attributes. Dimensions of UI elements autom
 [**View markup-only demo.**](http://scotthovestadt.github.io/gigya-markup/) View [source code](https://github.com/scotthovestadt/gigya-markup/blob/master/index.html).
 
 ## Installation
-Place script source ````//d1ubmrxmgxxi5o.cloudfront.net/gy.js```` in ````<head>```` tag *after* official Gigya SDK:
+Place script source ````//cdn.gigya-ext.com/gy.js```` in ````<head>```` tag *after* official Gigya SDK:
 ````html
 <!-- Official Gigya SDK -->
 <script type="text/javascript" src="http://cdn.gigya.com/JS/socialize.js?apiKey=<API KEY HERE>"></script>
 
 <!-- Gigya Markup (included AFTER official Gigya SDK) -->
-<script src="//d1ubmrxmgxxi5o.cloudfront.net/gy.js" type="text/javascript"></script>
+<script src="//cdn.gigya-ext.com/gy.js" type="text/javascript"></script>
 ````
 
 ## Side-by-side code comparison
