@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const IfRule = require('../model/if-rule.js');
+import _ from 'lodash';
+import IfRule from 'model/if-rule.js';
 
 /**
  * Create two sets of rules, gy-show-if and gy-hide-if:
@@ -35,7 +35,7 @@ const rules = _.map(_rules, (rule) => {
  *
  * @param {jQueryElement} $container
  */
-module.exports = function bind($container) {
+module.exports = function bindIf($container) {
   _.each(rules, (rule) => {
     rule.bind($container);
   });

@@ -1,6 +1,6 @@
-const $ = require('jquery');
-const Rule = require('./rule.js');
-const account = require('../singleton/account.js');
+import $ from 'jquery';
+import Rule from 'model/rule.js';
+import account from 'singleton/account.js';
 
 /**
  * Rule that controls visibility of element(s).

@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const UiRule = require('../model/ui-rule.js');
+import _ from 'lodash';
+import UiRule from 'model/ui-rule.js';
 
 const rules = _.map([
   { name: 'login', method: 'gigya.socialize.showLoginUI', defaults: { hideGigyaLink: true, version: 2 } },
@@ -21,7 +21,7 @@ const rules = _.map([
  *
  * @param {jQueryElement} $container
  */
-module.exports = function bind($container) {
+module.exports = function bindUi($container) {
   _.each(rules, (rule) => {
     rule.bind($container);
   });

@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const store = require('store');
-const EventEmitter = require('events');
+import _ from 'lodash';
+import store from 'store';
+import { EventEmitter } from 'events';
 
 /**
  * Account singleton mirrors current Gigya user session.

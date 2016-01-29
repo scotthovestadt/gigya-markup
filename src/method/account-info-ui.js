@@ -1,13 +1,14 @@
-const $ = require('jquery');
-const account = require('./../singleton/account.js');
+import $ from 'jquery';
+import account from 'singleton/account.js';
 
 /**
  * Look up account field (supports dot notation) and display in element.
  *
  * @param {String} field - Account field, for example "profile.firstName"
  * @param {String} containerID - ID of DIV element to append span.
+ * @param {Function} onLoad - Called after initial render.
  */
-module.exports = function accountInfoUi({ field, containerID, onLoad }) {
+module.exports = function bindAccountInfoUi({ field, containerID, onLoad }) {
   // Create span element to hold field text.
   const $el = $('<span />');
 

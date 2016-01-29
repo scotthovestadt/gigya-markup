@@ -1,16 +1,21 @@
-const $ = require('jquery');
+import $ from 'jquery';
+import bindIf from 'method/if.js';
+import bindUi from 'method/ui.js';
+import bindClick from 'method/click.js';
+import bindAccountInfoUi from 'method/account-info-ui.js';
 
 // Expose bind methods on public namespace.
-const gy = window.gy = {};
-gy.ui = require('./method/ui.js');
-gy.if = require('./method/if.js');
-gy.click = require('./method/click.js');
-gy.accountInfoUi = require('./method/account-info-ui.js');
+const gy = window.gy = {
+  bindIf,
+  bindUi,
+  bindClick,
+  bindAccountInfoUi
+};
 
 // When document ready, bind automatically.
 $(document).ready(() => {
   const $body = $('body');
-  gy.if($body);
-  gy.ui($body);
-  gy.click($body);
+  gy.bindIf($body);
+  gy.bindUi($body);
+  gy.bindClick($body);
 });

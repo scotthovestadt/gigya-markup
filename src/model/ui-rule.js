@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const $ = require('jquery');
-const MethodRule = require('./method-rule.js');
-const account = require('../singleton/account.js');
+import _ from 'lodash';
+import $ from 'jquery';
+import MethodRule from 'model/method-rule.js';
+import account from 'singleton/account.js';
 
 /**
  * Renders UI using attached method on elements.

@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const $ = require('jquery');
-const MethodRule = require('./method-rule.js');
+import _ from 'lodash';
+import $ from 'jquery';
+import MethodRule from 'model/method-rule.js';
 
 /**
  * Rule that executes method when element clicked.

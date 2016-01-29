@@ -1,33 +1,33 @@
-const gulp = require('gulp');
-const _gulp = require('load-plugins')('gulp-*', { strip: ['gulp'] });
-const postcss = require('postcss');
-const _postcss = require('load-plugins')('postcss-*', { strip: ['postcss'] });
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
-const browserify = require('browserify');
-const watchify = require('watchify');
-const babelify = require('babelify');
-const stringify = require('stringify');
-const _ = require('lodash');
-const bindIf = require('./src/method/if.js');
-const bindClick = require('./src/method/click.js');
-const bindUi = require('./src/method/ui.js');
-const transformTools = require('browserify-transform-tools');
-const globby = require('globby');
+import gulp from 'gulp';
+import loadPlugins from 'load-plugins';
+import postcss from 'postcss';
+import source from 'vinyl-source-stream';
+import buffer from 'vinyl-buffer';
+import browserify from 'browserify';
+import watchify from 'watchify';
+import babelify from 'babelify';
+import stringify from 'stringify';
+import transformTools from 'browserify-transform-tools';
+import globby from 'globby';
+import _ from 'lodash';
+const _gulp = loadPlugins('gulp-*', { strip: ['gulp'] });
+const _postcss = loadPlugins('postcss-*', { strip: ['postcss'] });
 
 /**
  * Paths used in build process.
  */
 const paths = {};
-paths.build = './dist/';
+paths.build = `${__dirname}/dist/`;
 paths.out = 'gy.js';
-paths.src = './src/';
-paths.main = paths.src + 'main.js';
-paths.css = paths.src + 'css/';
-paths.cssGlob = paths.css + '*.css';
+paths.src = `${__dirname}/src/`;
+paths.main = `${paths.src}main.js`;
+paths.css = `${paths.src}css/`;
+paths.cssGlob = `${paths.css}*.css`;
 
 /**
  * Log error and beep.
+ *
+ * @param {Error} err
  */
 function onError(err) {
   _gulp.util.log(_gulp.util.colors.red(err.message));
@@ -39,6 +39,12 @@ function onError(err) {
  * Browserify transformer: Compile CSS into JS.
  */
 function transformCss() {
+  // The include paths are relative, which makes this difficult.
+  require('app-module-path').addPath(paths.src);
+  const bindIf = require('./src/method/if.js');
+  const bindClick = require('./src/method/click.js');
+  const bindUi = require('./src/method/ui.js');
+
   // Create custom selectors.
   // Example: @custom-select :--gy-click .gy-click-share, .gy-click-screen-set, ...
   let customSelectors = '';
@@ -81,12 +87,18 @@ function transformCss() {
 
 /**
  * Compile JS distributable.
+ *
+ * @param {Boolean} watch - If true, compile and watch for further changes.
+ * @param {Boolean} compress - If true, compress JavaScript.
  */
 function compileScripts(watch, compress) {
   // Create browserify bundler.
   const bundler = browserify({
     // Entry points.
     entries: globby.sync([paths.main, paths.cssGlob]),
+
+    // Array of paths, equivalent of setting NODE_PATH environmental variable.
+    paths: [paths.src],
 
     // Enable errors.
     debug: true,

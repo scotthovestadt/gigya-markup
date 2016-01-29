@@ -1,4 +1,4 @@
-const Account = require('../model/account.js');
+import Account from 'model/account.js';
 
 // Init single instance of Account.
 const account = new Account();

@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const ClickRule = require('../model/click-rule.js');
+import _ from 'lodash';
+import ClickRule from 'model/click-rule.js';
 
 const rules = _.map([
   { name: 'share', method: 'gigya.socialize.showShareUI', defaults: { userAction: {} } },
@@ -13,7 +13,7 @@ const rules = _.map([
  *
  * @param {jQueryElement} $container
  */
-module.exports = function bind($container) {
+module.exports = function bindClick($container) {
   _.each(rules, (rule) => {
     rule.bind($container);
   });

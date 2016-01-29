@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const EventEmitter = require('events').EventEmitter;
+import _ from 'lodash';
+import { EventEmitter } from 'events';
 
 /**
  * Base class for all rules. Handles the logic for creating CSS selectors to find elements.

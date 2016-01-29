@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const Rule = require('./rule.js');
+import _ from 'lodash';
+import Rule from 'model/rule.js';
 
 // Create map of lowercased param names to correctly cased param names.
 const normalizedParamNames = {};
