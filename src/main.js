@@ -2,20 +2,19 @@ import $ from 'jquery';
 import bindIf from 'method/if.js';
 import bindUi from 'method/ui.js';
 import bindClick from 'method/click.js';
-import bindAccountInfoUi from 'method/account-info-ui.js';
 
-// Expose bind methods on public namespace.
+// Expose public namespace.
 const gy = window.gy = {
-  bindIf,
-  bindUi,
-  bindClick,
-  bindAccountInfoUi
+  // Render all markup in correct order.
+  render: ({ el } = {}) => {
+    const $el = el ? $(el) : $('body');
+    bindIf($el);
+    bindUi($el);
+    bindClick($el);
+  }
 };
 
-// When document ready, bind automatically.
+// Render automatically.
 $(document).ready(() => {
-  const $body = $('body');
-  gy.bindIf($body);
-  gy.bindUi($body);
-  gy.bindClick($body);
+  gy.render();
 });

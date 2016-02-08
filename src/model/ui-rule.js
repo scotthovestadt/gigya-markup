@@ -43,24 +43,31 @@ class UiRule extends MethodRule {
     // Find all elements that match our rule selector.
     $(this._selector(), $container).each((i, el) => {
       const $el = $(el);
-      
-      // All UI elements must have IDs, assign if necessary.
-      if($el.attr('id') === undefined) {
-        $el.attr('id', _.uniqueId('gy-ui-'));
+
+      // The bind method can be called to refresh state, so ensure we don't bind events multiple times.
+      if(!$el.data('gyUiBound')) {
+        $el.data('gyUiBound', true);
+
+        // All UI elements must have IDs, assign if necessary.
+        if($el.attr('id') === undefined) {
+          $el.attr('id', _.uniqueId('gy-ui-'));
+        }
+
+        // If element is blank, re-render when account status changes.
+        // Elements may not be rendered initially if the account isn't initialized or they are hidden.
+        // Additionally, Gigya login/registration screenset de-render themselves after logging in.
+        // The user may toggle back and forth between being logged in and logging out.
+        $el.data('initialHtml', $el.html());
+        account.on('changed', () => {
+          const html = $el.html();
+          if(!html || html === $el.data('initialHtml')) {
+            this._render({ $el });
+          }
+        });
       }
 
-      // Render element. If element is blank, re-render when account status changes.
-      // Elements may not be rendered initially if the account isn't initialized or they are hidden.
-      // Additionally, Gigya login/registration screenset de-render themselves after logging in.
-      // The user may toggle back and forth between being logged in and logging out.
-      const initialHtml = $el.html();
+      // Render element.
       this._render({ $el });
-      account.on('changed', () => {
-        const html = $el.html();
-        if(!html || html === initialHtml) {
-          this._render({ $el });
-        }
-      });
     });
   }
 
@@ -75,12 +82,18 @@ class UiRule extends MethodRule {
       return;
     }
 
+    // Do not start another render if element is currently rendering.
+    if($el.data('gyLoadStatus') === 'loading') {
+      return;
+    }
+
     // onLoad handler and fallback if never triggered.
     const onLoad = () => {
-      $el.data('loaded', true);
+      $el.data('gyLoadStatus', 'loaded');
     };
 
     // Call Gigya method attached to the clicked element to render UI.
+    $el.data('gyLoadStatus', 'loading');
     if(this.method({ $el, overrideParams: { onLoad } }) === false) {
       // Returns false if the method fails to execute. Typically means Gigya SDK is not available.
       return this._failed({ $el });
@@ -90,7 +103,7 @@ class UiRule extends MethodRule {
     let attempts = 0;
     const waitForLoad = () => {
       setTimeout(() => {
-        if($el.data('loaded') === true) {
+        if($el.data('gyLoadStatus') === 'loaded') {
           // Done.
         } else if(attempts <= 20) {
           attempts++;

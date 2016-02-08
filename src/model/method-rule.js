@@ -48,11 +48,15 @@ class MethodRule extends Rule {
    */
   method({ $el, overrideParams }) {
     // global = window
-    // method = 'gigya.socialize.showLoginUI' or similar (string).
+    // method = 'gigya.socialize.showLoginUI' (string) or function.
     // Will get method from Gigya namespace on window and execute.
     try {
       const params = _.merge(this._params({ $el }), overrideParams);
-      _.get(global, this._method)(params);
+      if(typeof this._method === 'string') {
+        _.get(global, this._method)(params);
+      } else {
+        this._method(params);
+      }
     } catch(e) {
       if(console && console.error) {
         console.error(`Failed to call method "${this._method}"`, e);

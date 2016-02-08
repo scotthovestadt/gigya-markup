@@ -19,18 +19,15 @@ class IfRule extends Rule {
   /**
    * If rule evaluates to true, element is visible; else false and invisible.
    *
-   * @param $els {JQueryElements}
+   * @param $el {JQueryElement}
    */
-  _visibility($els) {
-    $els.each((i, el) => {
-      const $el = $(el);
-      const isVisible = this.when({ account, $el });
-      if(isVisible === true) {
-        $el.show();
-      } else if(isVisible === false) {
-        $el.hide();
-      }
-    });
+  _visibility($el) {
+    const isVisible = this.when({ account, $el });
+    if(isVisible === true) {
+      $el.show();
+    } else if(isVisible === false) {
+      $el.hide();
+    }
   }
 
   /**
@@ -47,11 +44,19 @@ class IfRule extends Rule {
       return;
     }
 
-    // Set visibility now.
-    this._visibility($els);
+    $els.each((i, el) => {
+      const $el = $(el);
 
-    // Update visiblity if when changes.
-    account.on('changed', () => this._visibility($els));
+      // Set visibility now.
+      this._visibility($el);
+
+      // Update visiblity if when changes.
+      // The bind method can be called to refresh state, so ensure we don't bind events multiple times.
+      if(!$el.data('gyIfBound')) {
+        $el.data('gyIfBound', true);
+        account.on('changed', () => this._visibility($el));
+      }
+    });
   }
 }
 
