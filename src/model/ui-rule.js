@@ -76,9 +76,8 @@ class UiRule extends MethodRule {
     }
 
     // onLoad handler and fallback if never triggered.
-    let loaded = false;
     const onLoad = () => {
-      loaded = true;
+      $el.data('loaded', true);
     };
 
     // Call Gigya method attached to the clicked element to render UI.
@@ -91,7 +90,7 @@ class UiRule extends MethodRule {
     let attempts = 0;
     const waitForLoad = () => {
       setTimeout(() => {
-        if(loaded) {
+        if($el.data('loaded') === true) {
           // Done.
         } else if(attempts <= 20) {
           attempts++;
