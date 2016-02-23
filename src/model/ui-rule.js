@@ -58,12 +58,18 @@ class UiRule extends MethodRule {
         // Additionally, Gigya login/registration screenset de-render themselves after logging in.
         // The user may toggle back and forth between being logged in and logging out.
         $el.data('initialHtml', $el.html());
-        account.on('changed', () => {
+        const checkForRender = () => {
           const html = $el.html();
           if(!html || html === $el.data('initialHtml')) {
             this._render({ $el });
           }
-        });
+        };
+
+        // If the viewport size changes, breakpoints in the CSS may cause previously hidden elements to be displayed.
+        $(window).on('resize', _.debounce(checkForRender, 250));
+
+        // If the Gigya account changes, previously hidden elements may be displayed via if rules.
+        account.on('changed', checkForRender);
       }
 
       // Render element.

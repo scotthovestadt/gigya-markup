@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gigya Markup: responsive breakpoints screenset</title>
+
+  <!-- Gigya SDK -->
+  <script type="text/javascript" src="http://cdn.gigya.com/JS/socialize.js?apiKey=3_SteGZW-jSAzu5uD0WwQ8OrGtd0kkOqmu24MdyUCUej4z9t01QoNAeLzCO-MfWKPV"></script>
+
+  <!-- Gigya Markup (included after Gigya SDK) -->
+  <script src="gy.js" type="text/javascript"></script>
+
+  <!-- CSS breakpoints to show/hide elements based on viewport -->
+  <meta name="viewport" content="width=device-width" />
+  <style type="text/css">
+  .desktop {
+    width: 100%;
+  }
+  .mobile {
+    width: 400px;
+  }
+  @media screen and (max-width: 600px) {
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: block;
+    }
+  }
+  @media screen and (min-width: 601px) {
+    .desktop {
+      display: block;
+    }
+    .mobile {
+      display: none;
+    }
+  }
+  </style>
+</head>
+<body>
+  <div>The screen will switch automatically between a desktop and mobile view depending on screen width.</div>
+
+  <div class="desktop">
+    <strong>Desktop (100% screenset width):</strong>
+    <div class="gy-ui-screen-set" data-screen-set="Default-RegistrationLogin"></div>
+  </div>
+  <div class="mobile">
+    <strong>Tablet (400px screenset width):</strong>
+    <div class="gy-ui-screen-set" data-screen-set="Default-RegistrationLogin"></div>
+  </div>
+</body>
+</html>
