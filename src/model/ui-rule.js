@@ -64,11 +64,15 @@ class UiRule extends MethodRule {
             this._render({ $el });
           }
         };
+        const debouncedCheckForRender = _.debounce(checkForRender, 250);
 
         // If the viewport size changes, breakpoints in the CSS may cause previously hidden elements to be displayed.
-        $(window).on('resize', _.debounce(checkForRender, 250));
+        $(window).on('resize', debouncedCheckForRender);
 
-        // If the Gigya account changes, previously hidden elements may be displayed via if rules.
+        // If the user clicks something, previously hidden element may be displayed.
+        $(window).on('click', debouncedCheckForRender);
+
+        // If the Gigya account changes, previously hidden elements may be displayed via gy-if rules.
         account.on('changed', checkForRender);
       }
 

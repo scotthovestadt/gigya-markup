@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gigya Markup: hidden until click screenset</title>
+
+  <!-- Required for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <!-- Gigya SDK -->
+  <script type="text/javascript" src="http://cdn.gigya.com/JS/socialize.js?apiKey=3_SteGZW-jSAzu5uD0WwQ8OrGtd0kkOqmu24MdyUCUej4z9t01QoNAeLzCO-MfWKPV"></script>
+
+  <!-- Gigya Markup (included after Gigya SDK) -->
+  <script src="gy.js" type="text/javascript"></script>
+</head>
+<body>
+  <div>The screen won't be rendered initially but will be revealed when you <a href="javascript: void(0);" onclick="document.getElementById('screenSet').style.display = 'block';">click here</a> and automatically rendered.</div>
+  <div id="screenSet" style="display: none;" class="gy-ui-screen-set" data-screen-set="Default-RegistrationLogin"></div>
+</body>
+</html>
