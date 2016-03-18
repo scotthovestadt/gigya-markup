@@ -9,17 +9,8 @@ class Account extends EventEmitter {
   constructor() {
     super();
 
-    // Don't bind to Gigya if SDK not available.
-    const gigya = global.gigya;
-    if(!gigya) {
-      if(typeof console === 'object' && console.error) {
-        console.error('Gigya SDK not available, cannot bind to account.');
-      }
-      return;
-    }
-
     // When account information is updated check to see if changed.
-    const onAccount = (account) => {
+    const onAccount = (account, fireEvents = true) => {
       // Was anything changed on account?
       let changed = false;
 
@@ -43,13 +34,14 @@ class Account extends EventEmitter {
           _.get(account, 'isRegistered') !== _.get(this.account, 'isRegistered') ||
           _.get(account, 'isVerified') !== _.get(this.account, 'isVerified') ||
           !_.isEqual(_.get(account, 'profile'), _.get(this.account, 'profile')) ||
-          !_.isEqual(_.get(account, 'data'), _.get(this.account, 'data'))) {
+          !_.isEqual(_.get(account, 'data'), _.get(this.account, 'data')) ||
+          !_.isEqual(_.get(account, 'loginIDs.emails'), _.get(this.account, 'loginIDs.emails'))) {
           changed = true;
         }
       }
 
       // Set new account object and emit changed event.
-      if(changed) {
+      if(fireEvents && changed) {
         this.account = account;
         this.emit('changed');
       }
@@ -62,8 +54,8 @@ class Account extends EventEmitter {
         store.set(localStorageKey, this.account);
       });
       const cachedAccount = store.get(localStorageKey);
-      if(typeof cachedAccount === 'object') {
-        onAccount(cachedAccount);
+      if(typeof cachedAccount === 'object' && !this.isInitialized()) {
+        onAccount(cachedAccount, false);
       }
     }
 
@@ -138,10 +130,12 @@ class Account extends EventEmitter {
   /**
    * Get field from account, supports dot notation.
    *
+   * @param {String} field
+   * @param {String} defaultValue
    * @return {String|Boolean|Array|Number|Object}
    */
-  get(field) {
-    return _.get(this.account, field);
+  get(field, defaultValue) {
+    return _.get(this.account, field, defaultValue);
   }
 }
 
