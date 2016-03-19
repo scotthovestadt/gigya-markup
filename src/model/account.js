@@ -9,6 +9,15 @@ class Account extends EventEmitter {
   constructor() {
     super();
 
+    // Don't bind to Gigya if SDK not available.
+    const gigya = global.gigya;
+    if(!gigya) {
+      if(typeof console === 'object' && console.error) {
+        console.error('Gigya SDK not available, cannot bind to account.');
+      }
+      return;
+    }
+
     // When account information is updated check to see if changed.
     const onAccount = (account, fireEvents = true) => {
       // Was anything changed on account?
