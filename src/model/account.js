@@ -56,7 +56,7 @@ class Account extends EventEmitter {
         this.emit('changed', this);
       }
       if(fireEvents && UIDChanged) {
-        if(UID) {
+        if(account !== undefined) {
           this.emit('login', this);
         } else {
           this.emit('logout', this);
