@@ -83,7 +83,8 @@ class Account extends EventEmitter {
       'accounts.login',
       'accounts.finalizeregistration',
       'accounts.register',
-      'socialize.notifylogin'
+      'socialize.notifylogin',
+      'accounts.verifylogin'
     ];
 
     // Lowercased method names that should trigger us to call getAccountInfo.
