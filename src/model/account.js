@@ -22,6 +22,7 @@ class Account extends EventEmitter {
     const onAccount = (account, fireEvents = true) => {
       // Was anything changed on account?
       let changed = false;
+      let login = false;
 
       // Always emit change event if this is the first account object we've got.
       if(!this.initialized) {
@@ -36,23 +37,26 @@ class Account extends EventEmitter {
       }
 
       // Need to do a selective check of account fields because some fields will change every time the account is fetched.
-      if(!changed) {
-        if(typeof account !== typeof this.account ||
-          _.get(account, 'UID') !== _.get(this.account, 'UID') ||
-          _.get(account, 'socialProviders') !== _.get(this.account, 'socialProviders') ||
-          _.get(account, 'isRegistered') !== _.get(this.account, 'isRegistered') ||
-          _.get(account, 'isVerified') !== _.get(this.account, 'isVerified') ||
-          !_.isEqual(_.get(account, 'profile'), _.get(this.account, 'profile')) ||
-          !_.isEqual(_.get(account, 'data'), _.get(this.account, 'data')) ||
-          !_.isEqual(_.get(account, 'loginIDs.emails'), _.get(this.account, 'loginIDs.emails'))) {
-          changed = true;
-        }
+      if(_.get(account, 'UID') !== _.get(this.account, 'UID')) {
+        changed = true;
+        login = true;
+      }
+      if(_.get(account, 'socialProviders') !== _.get(this.account, 'socialProviders') ||
+        _.get(account, 'isRegistered') !== _.get(this.account, 'isRegistered') ||
+        _.get(account, 'isVerified') !== _.get(this.account, 'isVerified') ||
+        !_.isEqual(_.get(account, 'profile'), _.get(this.account, 'profile')) ||
+        !_.isEqual(_.get(account, 'data'), _.get(this.account, 'data')) ||
+        !_.isEqual(_.get(account, 'loginIDs.emails'), _.get(this.account, 'loginIDs.emails'))) {
+        changed = true;
       }
 
       // Set new account object and emit changed event.
       if(fireEvents && changed) {
         this.account = account;
-        this.emit('changed');
+        this.emit('changed', this);
+      }
+      if(fireEvents && login) {
+        this.emit('login', this);
       }
     };
 
