@@ -22,7 +22,6 @@ class Account extends EventEmitter {
     const onAccount = (account, fireEvents = true) => {
       // Was anything changed on account?
       let changed = false;
-      let UIDChanged = false;
 
       // Always emit change event if this is the first account object we've got.
       if(!this.initialized) {
@@ -37,11 +36,8 @@ class Account extends EventEmitter {
       }
 
       // Need to do a selective check of account fields because some fields will change every time the account is fetched.
-      if(_.get(account, 'UID') !== _.get(this.account, 'UID')) {
-        changed = true;
-        UIDChanged = true;
-      }
-      if(_.get(account, 'socialProviders') !== _.get(this.account, 'socialProviders') ||
+      if(_.get(account, 'UID') !== _.get(this.account, 'UID') ||
+        _.get(account, 'socialProviders') !== _.get(this.account, 'socialProviders') ||
         _.get(account, 'isRegistered') !== _.get(this.account, 'isRegistered') ||
         _.get(account, 'isVerified') !== _.get(this.account, 'isVerified') ||
         !_.isEqual(_.get(account, 'profile'), _.get(this.account, 'profile')) ||
@@ -53,14 +49,7 @@ class Account extends EventEmitter {
       // Set new account object and emit changed event.
       if(fireEvents && changed) {
         this.account = account;
-        this.emit('changed', this);
-      }
-      if(fireEvents && UIDChanged) {
-        if(account !== undefined) {
-          this.emit('login', this);
-        } else {
-          this.emit('logout', this);
-        }
+        this.emit('changed');
       }
     };
 
