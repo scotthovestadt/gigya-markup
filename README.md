@@ -7,7 +7,7 @@ All parameters are passed via data-* attributes. Dimensions of UI elements autom
 Place script source ````//cdn.gigya-ext.com/gy.js```` in ````<head>```` tag *after* official Gigya SDK:
 ````html
 <!-- Official Gigya SDK -->
-<script type="text/javascript" src="http://cdn.gigya.com/JS/socialize.js?apiKey=<API KEY HERE>"></script>
+<script type="text/javascript" src="https://cdns.gigya.com/JS/socialize.js?apiKey=<API KEY HERE>"></script>
 
 <!-- Gigya Markup (included AFTER official Gigya SDK) -->
 <script src="//cdn.gigya-ext.com/gy.js" type="text/javascript"></script>
