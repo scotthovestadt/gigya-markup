@@ -91,6 +91,21 @@ $(document).ready(function() {
 </div>
 ````
 
+## Public Interface
+
+### ````gy.render({ el })````
+Used when you've dynamically added an element to the DOM. Will render elements. May pass DOM element, jQuery elements, or jQuery selector.
+
+### ````gy.account.get('fieldName')````
+User's current account data. Always current. Can be called immediately on page load (powered by local storage cache). Example: ````gy.account.get('data.deep.field')````
+
+### ````gy.account.on('changed', callback)````
+When account data is changed (on login, logout, set account info, etc). Example: ````gy.account.get('data.deep.field')````
+
+### ````gy.account.isLoggedIn()````
+Determine if user is logged in. Can be called immediately on page load (powered by local storage cache).
+
+
 ## Markup
 
 ### ````ui```` markup
@@ -146,6 +161,7 @@ Documentation: http://developers.gigya.com/display/GD/socialize.showFeedUI+JS
 <div class="gy-ui-feed"></div>
 ````
 
+
 ### ````if```` markup
 ````if```` markup allows you to bind element visibility to Gigya state. All bindings are available on both the ````gy-show-if```` and the ````gy-hide-if```` namespaces. ````gy-show-if```` bindings are always **hidden** on page load before the screen is painted and are only revealed when the condition is met (which may require loading state from Gigya). ````gy-hide-if```` bindings are always **visible** on page load and are hidden when the condition is met.
 
@@ -169,6 +185,7 @@ Bind element visibility to condition. Use ````account.get```` to safely access e
   This only shows up if you login with Facebook.
 </div>
 ````
+
 
 ### ````click```` markup
 ````click```` markup allows you to bind actions to any clickable element.
