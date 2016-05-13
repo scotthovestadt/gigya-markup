@@ -74,10 +74,10 @@ class UiRule extends MethodRule {
 
         // If the Gigya account changes, previously hidden elements may be displayed via gy-if rules.
         account.on('changed', checkForRender);
-      }
 
-      // Render element.
-      this._render({ $el });
+        // Render element.
+        this._render({ $el });
+      }
     });
   }
 
