@@ -29,12 +29,9 @@ import account from 'singleton/account.js';
   };
 
   // Render automatically.
-  $(document).ready(() => {
-    gy.render();
+  $(document).ready(() => gy.render());
+  
+  // Try again in window load event to allow for dynamically rendered elements.
+  $(window).load(() => gy.render());
 
-    // Try again in 5 seconds to allow for dynamically rendered elements.
-    setTimeout(() => {
-      gy.render();
-    }, 5000);
-  });
 })();
