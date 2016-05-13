@@ -93,14 +93,14 @@ $(document).ready(function() {
 
 ## Public Interface
 
-### ````gy.render({ el })````
+### ````gy.render({ el: '...' })````
 Used when you've dynamically added an element to the DOM. Will render elements. May pass DOM element, jQuery elements, or jQuery selector.
 
-### ````gy.account.get('fieldName')````
-User's current account data. Always current. Can be called immediately on page load (powered by local storage cache). Example: ````gy.account.get('data.deep.field')````
+### ````gy.account.get('profile.firstName')````
+User's current account data. Always current. Can be called immediately on page load (powered by local storage cache).
 
 ### ````gy.account.on('changed', callback)````
-When account data is changed (on login, logout, set account info, etc). Example: ````gy.account.get('data.deep.field')````
+When account data is changed (on login, logout, set account info, etc).
 
 ### ````gy.account.isLoggedIn()````
 Determine if user is logged in. Can be called immediately on page load (powered by local storage cache).
