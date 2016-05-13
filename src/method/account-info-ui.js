@@ -16,18 +16,12 @@ module.exports = function bindAccountInfoUi({ field, containerID, onLoad }) {
     $el = $('<span />');
 
     // Set field text.
-    let currentText = undefined;
     const setText = () => {
       // Get field text.
       const text = account.get(field);
 
-      // Don't touch the DOM if the text hasn't changed.
-      if(currentText === text) {
-        return;
-      }
       // Update DOM.
       $el.text(text !== undefined ? text : '');
-
     };
     setText();
 
