@@ -38,9 +38,6 @@ module.exports = function bindAccountInfoUi({ field, containerID, onLoad }) {
     $container.append($el);
   }
 
-  // Update DOM.
-  $el.text(account.get(field, ''));
-
   // Trigger onLoad if provided.
   if(onLoad) {
     onLoad();
