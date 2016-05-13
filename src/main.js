@@ -31,5 +31,10 @@ import account from 'singleton/account.js';
   // Render automatically.
   $(document).ready(() => {
     gy.render();
+
+    // Try again in 5 seconds to allow for dynamically rendered elements.
+    setTimeout(() => {
+      gy.render();
+    }, 5000);
   });
 })();

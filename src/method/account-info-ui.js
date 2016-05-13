@@ -9,30 +9,37 @@ import account from 'singleton/account.js';
  * @param {Function} onLoad - Called after initial render.
  */
 module.exports = function bindAccountInfoUi({ field, containerID, onLoad }) {
-  // Create span element to hold field text.
-  const $el = $('<span />');
+  const $container = $('#' + containerID);
+  let $el = $container.find('span');
+  if(!$el.length) {
+    // Create span element to hold field text.
+    $el = $('<span />');
 
-  // Set field text.
-  let currentText = undefined;
-  const setText = () => {
-    // Get field text.
-    const text = account.get(field);
+    // Set field text.
+    let currentText = undefined;
+    const setText = () => {
+      // Get field text.
+      const text = account.get(field);
 
-    // Don't touch the DOM if the text hasn't changed.
-    if(currentText === text) {
-      return;
-    }
+      // Don't touch the DOM if the text hasn't changed.
+      if(currentText === text) {
+        return;
+      }
+      // Update DOM.
+      $el.text(text !== undefined ? text : '');
 
-    // Update DOM.
-    $el.text(text !== undefined ? text : '');
-  };
-  setText();
+    };
+    setText();
 
-  // Update field text if the account changes.
-  account.on('changed', setText);
+    // Update field text if the account changes.
+    account.on('changed', setText);
 
-  // Append span to DOM.
-  $('#' + containerID).append($el);
+    // Append span to DOM.
+    $container.append($el);
+  }
+
+  // Update DOM.
+  $el.text(account.get(field, ''));
 
   // Trigger onLoad if provided.
   if(onLoad) {
