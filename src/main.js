@@ -33,5 +33,4 @@ import account from 'singleton/account.js';
   
   // Try again in window load event to allow for dynamically rendered elements.
   $(window).load(() => gy.render());
-
 })();
