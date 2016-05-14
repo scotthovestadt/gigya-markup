@@ -30,8 +30,10 @@ class Account extends EventEmitter {
       }
 
       // No UID means no account.
+      // You may get an account response but not actually be logged in. Disregard accounts with regToken for this reason.
       const UID = _.get(account, 'UID');
-      if(UID === undefined || UID === '' || UID === null) {
+      const regToken = _.get(account, 'regToken');
+      if(UID === undefined || regToken) {
         account = undefined;
       }
 
