@@ -47,13 +47,15 @@ class IfRule extends Rule {
     $els.each((i, el) => {
       const $el = $(el);
 
-      // Set visibility now.
-      this._visibility($el);
-
-      // Update visiblity if when changes.
       // The bind method can be called to refresh state, so ensure we don't bind events multiple times.
+      // We do not need to refresh visibility every time this is called because it is keyed off account data only.
       if(!$el.data('gyIfBound')) {
         $el.data('gyIfBound', true);
+
+        // Set visibility now.
+        this._visibility($el);
+
+        // Update visiblity if account data changes.
         account.on('changed', () => this._visibility($el));
       }
     });

@@ -3,6 +3,7 @@ import bindIf from 'method/if.js';
 import bindUi from 'method/ui.js';
 import bindClick from 'method/click.js';
 import account from 'singleton/account.js';
+import bindAccountInfoUi from 'method/account-info-ui.js';
 
 (function() {
   // Don't bind to Gigya if SDK not available.
@@ -25,7 +26,11 @@ import account from 'singleton/account.js';
     },
 
     // Expose account singleton.
-    account
+    account,
+
+    // Expose account info UI.
+    // Follow Gigya naming conventions.
+    showAccountInfoUI: bindAccountInfoUi
   };
 
   // Render automatically.

@@ -10,8 +10,16 @@ class ClickRule extends MethodRule {
    * @param {JQueryElements} $container
    */
   bind($container) {
+    const uniqueId = 'gyClickBound_' + this._method;
+
+    // Do not re-bind if click event already bound to container.
+    if($container.data(uniqueId)) {
+      return;
+    }
+
     // Bind to click event.
-    $($container).on('click.GyClickRule', this._selector(), (e) => {
+    $container.data(uniqueId, true);
+    $container.on('click.' + uniqueId, this._selector(), (e) => {
       // Call Gigya method attached to the clicked element.
       this.method({ $el: $(e.target) });
 

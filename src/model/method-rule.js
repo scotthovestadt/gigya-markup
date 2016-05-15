@@ -12,6 +12,10 @@ _.each(['containerID', 'streamID', 'categoryID', 'UID', 'feedID', 'linkedComment
  * Abstract rule that executes a method bound to element. Extended by other rules.
  */
 class MethodRule extends Rule {
+  /**
+   * @param {String} method
+   * @param {Object} defaults
+   */
   constructor({ method, defaults }) {
     super(arguments[0]);
     this._method = method;
@@ -52,11 +56,7 @@ class MethodRule extends Rule {
     // Will get method from Gigya namespace on window and execute.
     try {
       const params = _.merge(this._params({ $el }), overrideParams);
-      if(typeof this._method === 'string') {
-        _.get(global, this._method)(params);
-      } else {
-        this._method(params);
-      }
+      _.get(global, this._method)(params);
     } catch(e) {
       if(console && console.error) {
         console.error(`Failed to call method "${this._method}"`, e);

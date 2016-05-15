@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import UiRule from 'model/ui-rule.js';
-import bindAccountInfoUi from 'method/account-info-ui.js';
 
 const rules = _.map([
   { name: 'login', method: 'gigya.socialize.showLoginUI', defaults: { hideGigyaLink: true, version: 2 } },
@@ -14,7 +13,7 @@ const rules = _.map([
   { name: 'challenge-status', method: 'gigya.gm.showChallengeStatusUI' },
   { name: 'leaderboard', method: 'gigya.gm.showLeaderboardUI' },
   { name: 'user-status', method: 'gigya.gm.showUserStatusUI' },
-  { name: 'account-info', method: bindAccountInfoUi }
+  { name: 'account-info', method: 'gy.showAccountInfoUI' }
 ], (rule) => new UiRule(_.merge(rule, { element: 'gy-ui' })));
 
 /**
