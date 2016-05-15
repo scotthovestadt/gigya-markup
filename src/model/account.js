@@ -131,7 +131,7 @@ class Account extends EventEmitter {
    * @return {Boolean}
    */
   isLoggedIn() {
-    return this.get('UID') !== undefined && !this.get('regToken');
+    return this.get('UID') !== undefined && this.get('isRegistered') && !this.get('regToken');
   }
 
   /**
