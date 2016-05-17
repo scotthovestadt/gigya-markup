@@ -19,6 +19,16 @@ class Account extends EventEmitter {
     }
 
     // When account information is updated check to see if changed.
+    const accountFieldsToCheck = [
+      'UID',
+      'socialProviders',
+      'isRegistered',
+      'isVerified',
+      'profile',
+      'data',
+      'loginIDs',
+      'regToken'
+    ];
     const onAccount = (account, fireEvents = true) => {
       // Was anything changed on account?
       let changed = false;
@@ -36,14 +46,10 @@ class Account extends EventEmitter {
       }
 
       // Need to do a selective check of account fields because some fields will change every time the account is fetched.
-      if(_.get(account, 'UID') !== _.get(this.account, 'UID') ||
-        _.get(account, 'socialProviders') !== _.get(this.account, 'socialProviders') ||
-        _.get(account, 'isRegistered') !== _.get(this.account, 'isRegistered') ||
-        _.get(account, 'isVerified') !== _.get(this.account, 'isVerified') ||
-        !_.isEqual(_.get(account, 'profile'), _.get(this.account, 'profile')) ||
-        !_.isEqual(_.get(account, 'data'), _.get(this.account, 'data')) ||
-        !_.isEqual(_.get(account, 'loginIDs.emails'), _.get(this.account, 'loginIDs.emails'))) {
-        changed = true;
+      if(!changed) {
+        changed = _.some(accountFieldsToCheck, (accountField) => {
+          return !_.isEqual(_.get(account, accountField), _.get(this.account, accountField));
+        });
       }
 
       // Set new account object and emit changed event.
