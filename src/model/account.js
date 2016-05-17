@@ -47,9 +47,11 @@ class Account extends EventEmitter {
       }
 
       // Set new account object and emit changed event.
-      if(fireEvents && changed) {
+      if(changed) {
         this.account = account;
-        this.emit('changed');
+        if(fireEvents) {
+          this.emit('changed');
+        }
       }
     };
 
