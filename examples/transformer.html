@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gigya Markup: transformer</title>
+
+  <!-- Gigya SDK -->
+  <script type="text/javascript" src="https://cdns.gigya.com/JS/socialize.js?apiKey=3_SteGZW-jSAzu5uD0WwQ8OrGtd0kkOqmu24MdyUCUej4z9t01QoNAeLzCO-MfWKPV"></script>
+
+  <!-- Gigya Markup (included after Gigya SDK) -->
+  <script src="//cdn.gigya-ext.com/gy.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+  gy.registerTransformer({
+    // This demonstrates a simple transformer that will dynamically insert a field at runtime.
+    afterFetch: function(account) {
+      account.data.notARealField = 'This is inserted at runtime.';
+    },
+
+    // This demonstrates a simple transformer that will always uppercase your name for save in the database.
+    beforeSave: function(account) {
+      account.profile.lastName = account.profile.firstName ? account.profile.firstName.toUpperCase() : undefined;
+    }
+  });
+  </script>
+</head>
+<body>
+  <!-- Will only show when the user is logged out, visible by default (gy-show-if). -->
+  <div class="gy-hide-if-logged-in gy-ui-screen-set" data-screen-set="Default-RegistrationLogin"></div>
+
+  <!-- Will only show when the user is logged in, invisible by default (gy-show-if). -->
+  <div class="gy-show-if-logged-in">
+    <!-- Renders fields from account info to demonstrate transformers. -->
+    <div>
+      <span>profile.firstName:</span>
+      <span class="gy-ui-account-info" data-field="profile.firstName"></span>
+    </div>
+    <div>
+      <span>profile.lastName:</span>
+      <span class="gy-ui-account-info" data-field="profile.lastName"></span>
+    </div>
+    <div>
+      <span>data.notARealField:</span>
+      <span class="gy-ui-account-info" data-field="data.notARealField"></span>
+    </div>
+
+    <!-- Logout when clicked. -->
+    <div><a class="gy-click-screen-set" data-screen-set="Default-ProfileUpdate" href="#">Update Profile</a></div>
+    <div><a class="gy-click-logout" href="#">Logout</a></div>
+  </div>
+
+  <style type="text/css">
+    html, body {
+      background-color: #F1F1ED;
+      margin: 0;
+      font-family: Arial;
+      height: 100%;
+    }
+    .gy-show-if-logged-in {
+      margin: 20px;
+      padding: 20px;
+      background-color: #FFF;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .gy-show-if-logged-in div {
+      display: block;
+      padding: 10px;
+      padding-top: 0;
+      padding-left: 0;
+    }
+    .gy-show-if-logged-in div:last-child {
+      padding-bottom: 0;
+    }
+    .gy-show-if-logged-in span {
+      font-weight: bold;
+      display: inline-block;
+      width: 200px;
+    }
+    .gy-show-if-logged-in .gy-ui-account-info,
+    .gy-show-if-logged-in .gy-ui-account-info *,
+    .gy-show-if-logged-in p {
+      font-weight: normal;
+    }
+    .gy-click-screen-set {
+      display: inline-block;
+      margin-top: 15px;
+    }
+    </style>
+</body>
+</html>

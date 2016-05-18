@@ -4,6 +4,7 @@ import bindUi from 'method/ui.js';
 import bindClick from 'method/click.js';
 import account from 'singleton/account.js';
 import bindAccountInfoUi from 'method/account-info-ui.js';
+import registerTransformer from 'method/register-transformer.js';
 
 (function() {
   // Don't bind to Gigya if SDK not available.
@@ -30,7 +31,11 @@ import bindAccountInfoUi from 'method/account-info-ui.js';
 
     // Expose account info UI.
     // Follow Gigya naming conventions.
-    showAccountInfoUI: bindAccountInfoUi
+    showAccountInfoUI: bindAccountInfoUi,
+
+    // Register transformation function.
+    // Expects { afterFetch: Function, beforeSave: Function }
+    registerTransformer
   };
 
   // Render automatically.
