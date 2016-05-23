@@ -8,6 +8,14 @@ import account from 'singleton/account.js';
  */
 class UiRule extends MethodRule {
   /**
+   * @param {Function} checkForRender
+   */
+  constructor({ checkForRender }) {
+    super(arguments[0]);
+    this._checkForRender = checkForRender;
+  }
+
+  /**
    * Parse parameters from element attributes.
    *
    * @param {JQueryElement} $el
@@ -55,13 +63,17 @@ class UiRule extends MethodRule {
 
         // If element is blank, re-render when account status changes.
         // Elements may not be rendered initially if the account isn't initialized or they are hidden.
-        // Additionally, Gigya login/registration screenset de-render themselves after logging in.
+        // Additionally, Gigya login/registration screensets need to be re-rendered after logging in or logging.
         // The user may toggle back and forth between being logged in and logging out.
         $el.data('initialHtml', $el.html());
-        const checkForRender = () => {
+        const checkForRender = (event) => {
           const html = $el.html();
           if(!html || html === $el.data('initialHtml')) {
             this._render({ $el });
+          } else if(this._checkForRender && event && event.account) {
+            if(this._checkForRender({ oldAccount: event.oldAccount, account: event.account, $el })) {
+              this._render({ $el, reRender: true });
+            }
           }
         };
         const debouncedCheckForRender = _.debounce(checkForRender, 250);
