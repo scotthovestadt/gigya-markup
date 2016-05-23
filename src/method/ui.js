@@ -1,7 +1,13 @@
 import _ from 'lodash';
 import UiRule from 'model/ui-rule.js';
 
-// Re-render screensets with a form when login status changes.
+/**
+ * Re-render screensets with a form when login status changes.
+ *
+ * @param {Object} oldAccount
+ * @param {Object} account
+ * @param {jQueryElement} $el
+ */
 function screensetCheckForRender({ oldAccount, account, $el }) {
   if(oldAccount.UID !== account.UID && $el.find('form').length) {
     return true;
