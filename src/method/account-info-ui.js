@@ -18,7 +18,12 @@ module.exports = function bindAccountInfoUi({ field, containerID, onLoad }) {
     // Set field text.
     const setText = () => {
       // Get field text.
-      const text = account.get(field);
+      let text = account.get(field);
+
+      // Render array or object as JSON string. Mostly used for debugging.
+      if(typeof text === 'object') {
+        text = JSON.stringify(text, null, 2);
+      }
 
       // Update DOM.
       $el.text(text !== undefined ? text : '');
