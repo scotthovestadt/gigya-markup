@@ -9,7 +9,7 @@ import UiRule from 'model/ui-rule.js';
  * @param {jQueryElement} $el
  */
 function screensetCheckForRender({ oldAccount, account, $el }) {
-  if(oldAccount.UID !== account.UID && $el.find('form').length) {
+  if(oldAccount.UID !== account.UID && $el.find('form').length && (account.isRegistered === true || account.UID === undefined)) {
     return true;
   }
 }
