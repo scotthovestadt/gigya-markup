@@ -2,14 +2,16 @@ import _ from 'lodash';
 import UiRule from 'model/ui-rule.js';
 
 /**
- * Re-render screensets with a form when login status changes.
+ * Re-render screenset containing form on log out.
+ *
+ * This prevents a state where you login and logout only to see the registration form still pre-populated.
  *
  * @param {Object} oldAccount
  * @param {Object} account
  * @param {jQueryElement} $el
  */
 function screensetCheckForRender({ oldAccount, account, $el }) {
-  if(oldAccount.UID !== account.UID && $el.find('form').length && (account.isRegistered === true || account.UID === undefined)) {
+  if(oldAccount.UID !== account.UID && $el.find('form').length && account.UID === undefined) {
     return true;
   }
 }

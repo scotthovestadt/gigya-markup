@@ -114,7 +114,9 @@ class Account extends EventEmitter {
 
           // Other events will trigger us to call getAccountInfo.
           } else if(_.indexOf(triggerMethodNames, methodName) !== -1) {
-            gigya.accounts.getAccountInfo();
+            gigya.accounts.getAccountInfo({
+              regToken: _.get(e, 'response.requestParams.regToken')
+            });
           }
         }
       }]
