@@ -35,7 +35,13 @@ import registerTransformer from 'method/register-transformer.js';
 
     // Register transformation function.
     // Expects { afterFetch: Function, beforeSave: Function }
-    registerTransformer
+    registerTransformer,
+
+    // Enable debug mode which prints logs to console.
+    _isDebugModeEnabled: false,
+    enableDebugMode: () => {
+      gy._isDebugModeEnabled = true;
+    }
   };
 
   // Render automatically.
