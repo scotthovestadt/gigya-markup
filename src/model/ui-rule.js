@@ -2,6 +2,7 @@ import _ from 'lodash';
 import $ from 'jquery';
 import MethodRule from 'model/method-rule.js';
 import account from 'singleton/account.js';
+import logger from 'method/logger.js';
 
 /**
  * Renders UI using attached method on elements.
@@ -55,6 +56,7 @@ class UiRule extends MethodRule {
       // The bind method can be called to refresh state, so ensure we don't bind events multiple times.
       if(!$el.data('gyUiBound')) {
         $el.data('gyUiBound', true);
+        logger('Binding to UI element', $el);
 
         // All UI elements must have IDs, assign if necessary.
         if($el.attr('id') === undefined) {
@@ -65,13 +67,16 @@ class UiRule extends MethodRule {
         // Elements may not be rendered initially if the account isn't initialized or they are hidden.
         // Additionally, Gigya login/registration screensets need to be re-rendered after logging in or logging.
         // The user may toggle back and forth between being logged in and logging out.
+        const isRerenderEnabled = $el.data('rerender') !== false;
         $el.data('initialHtml', $el.html());
         const checkForRender = (event) => {
           const html = $el.html();
           if(!html || html === $el.data('initialHtml')) {
+            logger('Re-rendering UI elements because was previously hidden or element HTML cleared.', $el);
             this._render({ $el });
-          } else if(this._checkForRender && event && event.account) {
+          } else if(this._checkForRender && isRerenderEnabled && event && event.account) {
             if(this._checkForRender({ oldAccount: event.oldAccount, account: event.account, $el })) {
+              logger('Re-rendering UI element on checkForRender trigger.', $el, event);
               this._render({ $el, reRender: true });
             }
           }
