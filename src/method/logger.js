@@ -3,3 +3,9 @@ module.exports = function(...args) {
     console.log(...args);
   }
 };
+
+module.exports.error = function(...args) {
+  if(typeof console === 'object' && console.error) {
+    console.error(...args);
+  }
+};

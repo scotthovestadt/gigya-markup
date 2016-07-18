@@ -38,7 +38,7 @@ import registerTransformer from 'method/register-transformer.js';
     registerTransformer,
 
     // Enable debug mode which prints logs to console.
-    _isDebugModeEnabled: false,
+    _isDebugModeEnabled: window.__gyDebug || false,
     enableDebugMode: () => {
       gy._isDebugModeEnabled = true;
     }

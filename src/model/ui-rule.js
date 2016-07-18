@@ -119,9 +119,14 @@ class UiRule extends MethodRule {
       $el.data('gyLoadStatus', 'loaded');
     };
 
+    // onError handler.
+    const onError = (err) => {
+      logger.error('UI render onError', $el.attr('id'), err);
+    };
+
     // Call Gigya method attached to the clicked element to render UI.
     $el.data('gyLoadStatus', 'loading');
-    if(this.method({ $el, overrideParams: { onLoad } }) === false) {
+    if(this.method({ $el, overrideParams: { onLoad, onError } }) === false) {
       // Returns false if the method fails to execute. Typically means Gigya SDK is not available.
       return this._failed({ $el });
     }
