@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import store from 'store';
 import { EventEmitter } from 'events';
+import logger from 'method/logger.js';
 
 /**
  * Account singleton mirrors current Gigya user session.
@@ -54,10 +55,31 @@ class Account extends EventEmitter {
 
       // Set new account object and emit changed event.
       if(changed) {
-        const oldAccount = this.account || {};
+        if(account) {
+          // Shallow clone the account and remove fields we don't wish to store in the cache or expose.
+          account = _.clone(account);
+
+          // This fixes an issue serializing JSON (these objects can contain references to themselves).
+          delete account.context;
+          delete account.requestParams;
+
+          // Reduce storage overhead.
+          delete account.errorCode;
+          delete account.callId;
+          delete account.time;
+          delete account.status;
+          delete account.errorMessage;
+          delete account.statusMessage;
+          delete account.operation;
+        }
+
+        const oldAccount = this.account;
         this.account = account;
         if(fireEvents) {
-          this.emit('changed', { oldAccount, account: account || {} });
+          this.emit('changed', {
+            oldAccount: oldAccount || {},
+            account: account || {}
+          });
         }
       }
     };
@@ -66,7 +88,13 @@ class Account extends EventEmitter {
     if(store.enabled) {
       const localStorageKey = 'gy__account';
       this.on('changed', () => {
-        store.set(localStorageKey, this.account);
+        try {
+          store.set(localStorageKey, this.account);
+        } catch(e) {
+          // Circular reference can cause serialization to fail.
+          // It shouldn't happen, but we must catch the possibility.
+          logger.error('Failed to store account in local storage cache', e, this.account);
+        }
       });
       const cachedAccount = store.get(localStorageKey);
       if(typeof cachedAccount === 'object' && !this.isInitialized()) {
