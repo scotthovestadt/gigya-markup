@@ -1,4 +1,4 @@
-## Gigya Markup
+## Gigya Markup (Unofficial Open-Source Extension to Gigya SDK)
 All parameters are passed via data-* attributes. Dimensions of UI elements automatically set from CSS. Responsive design supported. Page flickering eliminated. No JavaScript required!
 
 [**View markup-only demo.**](http://scotthovestadt.github.io/gigya-markup/) View [source code](https://github.com/scotthovestadt/gigya-markup/blob/master/index.html).
