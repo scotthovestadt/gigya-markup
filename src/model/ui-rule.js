@@ -81,13 +81,19 @@ class UiRule extends MethodRule {
             }
           }
         };
-        const debouncedCheckForRender = _.debounce(checkForRender, 250);
+        const debouncedCheckForRender = _.debounce(checkForRender, 100);
 
         // If the viewport size changes, breakpoints in the CSS may cause previously hidden elements to be displayed.
-        $(window).on('resize', debouncedCheckForRender);
+        $('window').on('resize', debouncedCheckForRender);
 
         // If the user clicks something, previously hidden element may be displayed.
-        $(window).on('click', debouncedCheckForRender);
+        $('body').on('click', function() {
+          // Check a bunch of times because sometimes the screen may be delayed by an animation or other loading.
+          debouncedCheckForRender();
+          for (const delay of [250, 500, 750, 1000, 1250, 1500]) {
+            setTimeout(() => checkForRender(), delay);
+          }
+        });
 
         // If the Gigya account changes, previously hidden elements may be displayed via gy-if rules.
         account.on('changed', checkForRender);
