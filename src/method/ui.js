@@ -17,7 +17,9 @@ function screensetCheckForRender({ oldAccount, account, $el }) {
 }
 
 const rules = _.map([
-  { name: 'login', method: 'gigya.socialize.showLoginUI', defaults: { hideGigyaLink: true, version: 2 } },
+  { name: 'login', method: 'gigya.socialize.showLoginUI', defaults: { hideGigyaLink: true, showTermsLink: false, version: 2 } },
+  { name: 'add-connections', method: 'gigya.socialize.showAddConnectionsUI', defaults: { hideGigyaLink: true, showTermsLink: false, version: 2 } },
+  { name: 'edit-connections', method: 'gigya.socialize.showEditConnectionsUI', defaults: { hideGigyaLink: true, showTermsLink: false } },
   { name: 'feed', method: 'gigya.socialize.showFeedUI' },
   { name: 'chat', method: 'gigya.chat.showChatUI' },
   { name: 'share-bar', method: 'gigya.socialize.showShareBarUI', defaults: { userAction: {} } },
