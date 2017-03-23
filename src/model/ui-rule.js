@@ -71,8 +71,8 @@ class UiRule extends MethodRule {
         $el.data('initialHtml', $el.html());
         const checkForRender = (event) => {
           const html = $el.html();
-          if(!html || html === $el.data('initialHtml')) {
-            logger('Re-rendering UI elements because was previously hidden or element HTML cleared.', $el);
+          if((!html || html === $el.data('initialHtml')) && !gigya._.plugins.instances[$el.attr('id')]) {
+            logger('Re-rendering UI elements because was previously hidden.', $el);
             this._render({ $el });
           } else if(this._checkForRender && isRerenderEnabled && event && event.account) {
             if(this._checkForRender({ oldAccount: event.oldAccount, account: event.account, $el })) {
